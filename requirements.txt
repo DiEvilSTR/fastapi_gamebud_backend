@@ -1,0 +1,15 @@
+# Main dependencies
+fastapi
+uvicorn
+httpx
+PyJWT
+passlib
+bcrypt
+python-decouple
+sqlalchemy
+asyncpg
+psycopg2
+alembic
+
+# Testing
+pytest
