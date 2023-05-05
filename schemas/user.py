@@ -1,5 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel
+from .history import MatchHistory
 
 
 class UserBase(BaseModel):
@@ -11,10 +12,12 @@ class UserCreate(UserBase):
 
 
 class User(UserBase):
+    user_id: int
     username: str
-    is_active: bool
+    experience: int
     created_at: datetime
     updated_at: datetime
+    history: list[MatchHistory] = []
 
     class Config:
         orm_mode = True
