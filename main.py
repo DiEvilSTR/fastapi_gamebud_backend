@@ -2,10 +2,10 @@ import uvicorn
 
 from fastapi import FastAPI
 
-from api.api_v1.api_router import api_router
+from core.api_v1_router import api_router
 from core.config import settings
-from db.db_setup import engine
-from models import user
+from core.db.db_setup import engine
+from user_profile_module.models import user
 
 user.Base.metadata.create_all(bind=engine)
 
