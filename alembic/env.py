@@ -6,10 +6,8 @@ from sqlalchemy import pool
 from alembic import context
 
 from core.config import settings
-from db.db_setup import Base
-from models.history import MatchHistory
-# from models.match import Match
-from models.user import User
+from core.db.db_setup import Base
+from user_profile_module import User
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -67,12 +65,12 @@ def run_migrations_online() -> None:
 
     """
     config = context.config.get_section(context.config.config_ini_section, {})
-    
+
     # Override the database URL if 'test=true' is set in the configuration
     test_mode = context.get_x_argument(as_dictionary=True).get('test', False)
     if test_mode:
         config['sqlalchemy.url'] = settings.SQLALCHEMY_TEST_DATABASE_URL
-    
+
     connectable = engine_from_config(
         config,
         prefix="sqlalchemy.",
