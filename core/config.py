@@ -1,7 +1,8 @@
 from decouple import config
+from pydantic_settings import BaseSettings
 
 
-class Settings:
+class Settings(BaseSettings):
     # Project Details
     AUTHOR: str = config("AUTHOR")
     AUTHOR_EMAIL: str = config("AUTHOR_EMAIL")
@@ -19,8 +20,8 @@ class Settings:
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
 
     # Database url
-    SQLALCHEMY_DATABASE_URL = config('DATABASE_URL')
-    SQLALCHEMY_TEST_DATABASE_URL = config('TEST_DATABASE_URL')
+    SQLALCHEMY_DATABASE_URL: str = config('DATABASE_URL')
+    SQLALCHEMY_TEST_DATABASE_URL: str = config('TEST_DATABASE_URL')
 
     class Config:
         case_sensitive = True
