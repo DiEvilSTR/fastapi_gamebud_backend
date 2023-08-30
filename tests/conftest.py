@@ -1,8 +1,9 @@
 import os
 import pytest
+from unittest.mock import MagicMock, patch
 
 from core.config import settings
-from db.db_setup import Base
+from core.db import db_setup
 from fastapi.testclient import TestClient
 from main import app
 from sqlalchemy import create_engine
@@ -14,7 +15,7 @@ test_engine = create_engine(
     settings.SQLALCHEMY_TEST_DATABASE_URL,
     connect_args={},
     future=True
-    )
+)
 
 
 TestingSessionLocal = sessionmaker(
@@ -22,25 +23,31 @@ TestingSessionLocal = sessionmaker(
     autoflush=False,
     bind=test_engine,
     future=True
-    )
-
-
-# Override the database dependency in the test environment
-@pytest.fixture(autouse=True)
-def override_get_db(monkeypatch):
-    monkeypatch.setattr("db.db_setup.get_db", lambda: TestingSessionLocal())
+)
 
 
 # Create a test client for making requests against the application
 @pytest.fixture(scope="module")
 def get_test_db():
-    with TestClient(app) as test_client:
+    test_client = TestingSessionLocal()
+    try:
         yield test_client
+    finally:
+        test_client.close()
+
+
+# Create a test client for making requests against the application
+@pytest.fixture(scope="module")
+def test_client():
+    override_session_local = MagicMock(return_value=TestingSessionLocal())
+    with patch("core.db.db_setup.SessionLocal", override_session_local):
+        with TestClient(app) as test_client:
+            yield test_client
 
 
 # Create and drop the test database before and after running the tests
 @pytest.fixture(scope="session", autouse=True)
 def setup_and_teardown_database():
-    Base.metadata.create_all(bind=test_engine)
+    db_setup.Base.metadata.create_all(bind=test_engine)
     yield
-    Base.metadata.drop_all(bind=test_engine)
+    db_setup.Base.metadata.drop_all(bind=test_engine)

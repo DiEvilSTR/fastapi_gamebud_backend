@@ -40,7 +40,7 @@ def delete_user(db: Session, email: str):
 # 5 Update User [Update user]
 def update_user(db: Session, user: UserUpdate, email: str):
     db_user = get_user_by_email(db=db, email=email)
-    updated_user = user.dict(exclude_unset=True)
+    updated_user = user.model_dump(exclude_unset=True)
     for key, value in updated_user.items():
         setattr(db_user, key, value)
     db.add(db_user)
