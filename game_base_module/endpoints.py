@@ -13,30 +13,7 @@ from user_profile_module.schemas.user import User, UserCreate, UserUpdate
 router = APIRouter()
 
 
-# 1 User Login [Login user]
-@router.post("/login", response_model=Token)
-def user_login(user: UserLogin, db: Session = Depends(db_setup.get_db)):
-    if user_crud.authenticate(db=db, user=user):
-        if user_crud.get_user_by_email(db=db, email=user.email).is_active is False:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, detail="User is inactive. Please contact the admin."
-            )
-        else:
-            return jwt_handler.sign_jwt(user.email)
-    else:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid login details!"
-        )
-
-
-# 2 User Logout [Logout user]
-@router.post("/logout", dependencies=[Depends(jwt_scheme)])
-def user_logout(response: Response):
-    response.delete_cookie(key="Authorization")
-    return {"detail": "Successfully logged out!"}
-
-
-# 3 User Signup [Create a new user]
+# 1 Create  [Create a new user]
 @router.post("/signup", response_model=User, status_code=status.HTTP_201_CREATED)
 def user_signup(user: UserCreate, db: Session = Depends(db_setup.get_db)):
     db_user = user_crud.get_user_by_email(db=db, email=user.email)

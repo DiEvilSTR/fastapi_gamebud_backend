@@ -29,15 +29,7 @@ def create_user(db: Session, user: UserCreate):
     return db_user
 
 
-# 4 Delete User [Delete user]
-def delete_user(db: Session, email: str):
-    db_user = get_user_by_email(db=db, email=email)
-    db.delete(db_user)
-    db.commit()
-    return db_user
-
-
-# 5 Update User [Update user]
+# 4 Update User [Update user]
 def update_user(db: Session, user: UserUpdate, email: str):
     db_user = get_user_by_email(db=db, email=email)
     updated_user = user.model_dump(exclude_unset=True)
@@ -46,6 +38,14 @@ def update_user(db: Session, user: UserUpdate, email: str):
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
+    return db_user
+
+
+# 5 Delete User [Delete user]
+def delete_user(db: Session, email: str):
+    db_user = get_user_by_email(db=db, email=email)
+    db.delete(db_user)
+    db.commit()
     return db_user
 
 
