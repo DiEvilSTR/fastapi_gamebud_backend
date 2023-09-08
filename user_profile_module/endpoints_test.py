@@ -50,9 +50,9 @@ def test_user_login(test_client):
     mock_sign_jwt = MagicMock(
         return_value={"access_token": "test_token", "token_type": "bearer"})
     mock_get_user_by_email = MagicMock(return_value=test_user_obj_1)
-    with patch("user_profile_module.crud.authenticate", mock_authenticate), \
+    with patch("user_profile_module.crud.user_crud.authenticate", mock_authenticate), \
             patch("core.jwt_authentication.jwt_handler.sign_jwt", mock_sign_jwt), \
-    patch("user_profile_module.crud.get_user_by_email", mock_get_user_by_email):
+    patch("user_profile_module.crud.user_crud.get_user_by_email", mock_get_user_by_email):
         response = test_client.post(
             f"{settings.API_V1_STR}/user/login/",
             json={"email": test_user_1["email"], "password": password}
@@ -73,8 +73,8 @@ def test_user_signup(test_client):
     # 2 Test the user_signup endpoint for calling the crud.create_user function
     mock_get_user_by_email = MagicMock(return_value=None)
     mock_create_user = MagicMock(return_value=test_user_1)
-    with patch("user_profile_module.crud.get_user_by_email", mock_get_user_by_email), \
-            patch("user_profile_module.crud.create_user", mock_create_user):
+    with patch("user_profile_module.crud.user_crud.get_user_by_email", mock_get_user_by_email), \
+            patch("user_profile_module.crud.user_crud.create_user", mock_create_user):
         response = test_client.post(
             f"{settings.API_V1_STR}/user/signup/",
             json={"nickname": test_user_1["nickname"],
@@ -93,7 +93,7 @@ def test_user_signup(test_client):
 def test_read_current_user(test_client):
     # 3 Test the read_current_user endpoint for calling the crud_user_profile.user_profile_get function
     mock_get_user_by_email = MagicMock(return_value=test_user_1)
-    with patch("user_profile_module.crud.get_user_by_email", mock_get_user_by_email):
+    with patch("user_profile_module.crud.user_crud.get_user_by_email", mock_get_user_by_email):
         response = test_client.get(
             f"{settings.API_V1_STR}/user/me/",
             headers={"Authorization": "Bearer test_token"}
@@ -110,8 +110,8 @@ def test_update_user_profile(test_client):
     # 4 Test the update_current_user endpoint for calling the crud_user_profile's user_profile_get and user_profile_update functions
     mock_get_user_by_email = MagicMock(return_value=test_user_1)
     mock_update_user = MagicMock(return_value=test_user_1)
-    with patch("user_profile_module.crud.get_user_by_email", mock_get_user_by_email), \
-            patch("user_profile_module.crud.update_user", mock_update_user):
+    with patch("user_profile_module.crud.user_crud.get_user_by_email", mock_get_user_by_email), \
+            patch("user_profile_module.crud.user_crud.update_user", mock_update_user):
         response = test_client.patch(
             f"{settings.API_V1_STR}/user/me/",
             headers={"Authorization": "Bearer test_token"},
@@ -135,8 +135,8 @@ def test_delete_current_user(test_client):
     # 5 Test the delete_current_user endpoint for calling the crud_user's delete_user function
     mock_get_user_by_email = MagicMock(return_value=test_user_1)
     mock_delete_user = MagicMock(return_value=test_user_1)
-    with patch("user_profile_module.crud.get_user_by_email", mock_get_user_by_email), \
-            patch("user_profile_module.crud.delete_user", mock_delete_user):
+    with patch("user_profile_module.crud.user_crud.get_user_by_email", mock_get_user_by_email), \
+            patch("user_profile_module.crud.user_crud.delete_user", mock_delete_user):
         response = test_client.delete(
             f"{settings.API_V1_STR}/user/me/",
             headers={"Authorization": "Bearer test_token"}
