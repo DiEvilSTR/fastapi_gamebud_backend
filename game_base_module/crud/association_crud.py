@@ -1,5 +1,6 @@
 from decouple import config
 from sqlalchemy.orm import Session
+from typing import List
 
 from game_base_module.models.association import GameGenreAssociation
 from game_base_module.schemas.association import GameGenreAssociationCreate
@@ -15,26 +16,32 @@ def get_game_genre_by_name(db: Session, genre_id: int):
     return db.query(GameGenreAssociation).filter(GameGenreAssociation.genre_id == genre_id).first()
 
 
-# 3 Read certain association [Get certain association]
+# 3 Count associated games by genre id [Count associated games by genre id]
+def count_associated_games_by_genre_id(db: Session, genre_id: int):
+    return db.query(GameGenreAssociation).filter(GameGenreAssociation.genre_id == genre_id).count()
+
+
+# 4 Read certain association [Get certain association]
 def get_certain_association(db: Session, game_id: int, genre_id: int):
     return db.query(GameGenreAssociation).filter(GameGenreAssociation.game_id == game_id,
                                                  GameGenreAssociation.genre_id == genre_id).first()
 
 
-# 4 Add association [Add association]
-def add_association(db: Session, association: GameGenreAssociation):
-    db_association = GameGenreAssociation(game_id=association.game_id,
-                                          genre_id=association.genre_id)
-    db.add(db_association)
+# 5 Add associations [Add associations]
+def add_association(db: Session, game_id: int, association_list: List[int]):
+    db_association_list = []
+    for associated_game_genre in association_list:
+        db_association = GameGenreAssociation(game_id=game_id,
+                                              genre_id=associated_game_genre)
+        db_association_list.append(db_association)
+    db.bulk_save_objects(db_association_list)
     db.commit()
-    db.refresh(db_association)
-    return db_association
 
 
-# 5 Delete game genre association [Delete game genre]
-def delete_game_genre_association(db: Session, game_id: int, genre_id: int):
-    db_game_genre = get_certain_association(
-        db=db, game_id=game_id, genre_id=genre_id)
-    db.delete(db_game_genre)
+# 6 Delete game genre associations [Delete game genre]
+def delete_game_genre_association(db: Session, game_id: int, genre_ids: List[int]):
+    db.query(GameGenreAssociation).filter(
+        GameGenreAssociation.game_id == game_id,
+        GameGenreAssociation.genre_id.in_(genre_ids)
+    ).delete(synchronize_session=False)
     db.commit()
-    return db_game_genre

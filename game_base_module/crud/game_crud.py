@@ -23,12 +23,11 @@ def get_game_list(db: Session, skip: int = 0, limit: int = 100):
 # 4 Add Game [Create game]
 def add_game(db: Session, game: GameCreate):
     db_game = Game(name=game.name,
-                   description=game.description,
-                   genres=game.genres)
+                   description=game.description)
     db.add(db_game)
     db.commit()
     db.refresh(db_game)
-    return db_game
+    return db_game.id
 
 
 # 5 Update Game [Update game]

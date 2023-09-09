@@ -7,15 +7,14 @@ from .game_genre import GameGenreForList
 class GameBase(BaseModel):
     name: str
     description: Optional[str] = None
-    genres: List[int]  # List of genre IDs
 
 
 class GameCreate(GameBase):
-    pass
+    genre_list: List[int]  # List of genre IDs
 
 
 class GameUpdate(GameBase):
-    pass
+    genre_list: List[int]  # List of genre IDs
 
 
 class Game(GameBase):

@@ -7,17 +7,30 @@ from game_base_module.schemas.game_genre import GameGenreCreate, GameGenreUpdate
 
 # 1 Read game genre [Get game genre by id]
 def get_game_genre_by_id(db: Session, id: str):
-    return db.query(GameGenre).filter(GameGenre.id == id).first()
+    db_game_genre = db.query(GameGenre).filter(GameGenre.id == id).first()
+
+    # Calculate the number of associated games for each game genre
+    db_game_genre.number_of_games = db_game_genre.game_count
+    return db_game_genre
 
 
 # 2 Read game genre [Get game genre by name]
 def get_game_genre_by_name(db: Session, name: str):
-    return db.query(GameGenre).filter(GameGenre.name == name).first()
+    db_game_genre = db.query(GameGenre).filter(GameGenre.name == name).first()
+
+    # Calculate the number of associated games for each game genre
+    db_game_genre.number_of_games = db_game_genre.game_count
+    return db_game_genre
 
 
 # 3 Read game genre list [Get game genre list]
 def get_game_genre_list(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(GameGenre).offset(skip).limit(limit).all()
+    db_game_genres = db.query(GameGenre).offset(skip).limit(limit).all()
+
+    # Calculate the number of associated games for each game genre
+    for game_genre in db_game_genres:
+        game_genre.number_of_games = game_genre.game_count
+    return db_game_genres
 
 
 # 4 Add game genre [Add game genre]
