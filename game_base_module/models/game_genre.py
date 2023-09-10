@@ -7,6 +7,14 @@ from core.db.models.mixins import Timestamp
 
 
 class GameGenre(Timestamp, Base):
+    """
+    Game genre model
+
+    Fields:
+    - **id**: Game genre id
+    - **name**: Game genre name
+    - **description**: Game genre description
+    """
     __tablename__ = "game_genres"
 
     id = Column(Integer, primary_key=True, index=True)
