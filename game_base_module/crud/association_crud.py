@@ -39,9 +39,38 @@ def add_association(db: Session, game_id: int, association_list: List[int]):
 
 
 # 6 Delete game genre associations [Delete game genre]
-def delete_game_genre_association(db: Session, game_id: int, genre_ids: List[int]):
+def delete_game_genre_association(db: Session, game_id: int = None, genre_id: int = None):
+    filter_conditions = []
+
+    if game_id is not None:
+        filter_conditions.append(GameGenreAssociation.game_id == game_id)
+
+    if genre_id is not None:
+        filter_conditions.append(GameGenreAssociation.genre_id == genre_id)
+
     db.query(GameGenreAssociation).filter(
-        GameGenreAssociation.game_id == game_id,
-        GameGenreAssociation.genre_id.in_(genre_ids)
-    ).delete(synchronize_session=False)
+        *filter_conditions).delete(synchronize_session=False)
+    db.commit()
+
+
+# 6 Update associations [Update associations]
+def update_associations(db: Session, game_id: int, updated_association_list: List[int]):
+    db_game_genre_associations = db.query(GameGenreAssociation).filter(
+        GameGenreAssociation.game_id == game_id).all()
+    current_genre_ids = [
+        association.genre_id for association in db_game_genre_associations]
+    updated_genre_ids = updated_association_list
+
+    # Delete associations
+    for genre_id in current_genre_ids:
+        if genre_id not in updated_genre_ids:
+            delete_game_genre_association(
+                db=db, game_id=game_id, genre_id=genre_id)
+
+    # Add associations
+    for genre_id in updated_genre_ids:
+        if genre_id not in current_genre_ids:
+            add_association(db=db, game_id=game_id,
+                            association_list=[genre_id])
+
     db.commit()

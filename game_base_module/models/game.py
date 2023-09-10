@@ -13,4 +13,4 @@ class Game(Timestamp, Base):
 
     # Define the relationship to the GameGenre model
     genres = relationship(
-        "GameGenre", secondary="game_genre_association", back_populates="games", cascade="all, delete")
+        "GameGenre", secondary="game_genre_association", back_populates="games")

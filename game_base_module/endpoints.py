@@ -14,11 +14,12 @@ router = APIRouter()
 
 # Game genre endpoints
 
+
 @router.post("/game_genre", response_model=GameGenre, status_code=status.HTTP_201_CREATED)
 def add_new_game_genre(game_genre: GameGenreCreate, db: Session = Depends(db_setup.get_db)):
     """
     Add a new game genre to the database
-    
+
     Parameters:
     - **game_genre**: Game genre to be added
     """
@@ -38,7 +39,7 @@ def add_new_game_genre(game_genre: GameGenreCreate, db: Session = Depends(db_set
 def get_game_genre_list(skip: int = 0, limit: int = 100, db: Session = Depends(db_setup.get_db)):
     """
     Get game genre list
-    
+
     Parameters:
     - **skip**: Skip the first N game genres
     - **limit**: Limit the number of game genres returned
@@ -52,7 +53,7 @@ def get_game_genre_list(skip: int = 0, limit: int = 100, db: Session = Depends(d
 def get_game_genre_by_id(id: int, db: Session = Depends(db_setup.get_db)):
     """
     Get game genre by id
-    
+
     Parameters:
     - **id**: Game genre id
     """
@@ -68,7 +69,7 @@ def get_game_genre_by_id(id: int, db: Session = Depends(db_setup.get_db)):
 def update_game_genre_by_id(id: int, game_genre: GameGenreUpdate, db: Session = Depends(db_setup.get_db)):
     """
     Update game genre by id
-    
+
     Parameters:
     - **id**: Game genre id
     - **game_genre**: Updated game genre data
@@ -87,7 +88,7 @@ def update_game_genre_by_id(id: int, game_genre: GameGenreUpdate, db: Session = 
 def delete_game_genre_by_id(id: int, db: Session = Depends(db_setup.get_db)):
     """
     Delete game genre by id
-    
+
     Parameters:
     - **id**: Game genre id
     """
@@ -96,17 +97,23 @@ def delete_game_genre_by_id(id: int, db: Session = Depends(db_setup.get_db)):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Game genre already deleted."
         )
+
+    # Delete game genre
     game_genre_crud.delete_game_genre(db=db, id=id)
+
+    # Delete game genre associations
+    association_crud.delete_game_genre_association(db=db, genre_id=id)
     return {"detail": f"Game genre with id {id} deleted successfully."}
 
 
 # Games endpoints
 
+
 @router.post("/game", response_model=Game, status_code=status.HTTP_201_CREATED)
 def add_new_game(game: GameCreate, db: Session = Depends(db_setup.get_db)):
     """
     Add a new game to the database
-    
+
     Parameters:
     - **game**: Game to be added
     """
@@ -129,7 +136,7 @@ def add_new_game(game: GameCreate, db: Session = Depends(db_setup.get_db)):
 def get_game_list(skip: int = 0, limit: int = 100, search: str = None, db: Session = Depends(db_setup.get_db)):
     """
     Get game list
-    
+
     Parameters:
     - **skip**: Skip the first N games
     - **limit**: Limit the number of games returned
@@ -140,12 +147,11 @@ def get_game_list(skip: int = 0, limit: int = 100, search: str = None, db: Sessi
     return db_game_list
 
 
-# Get game by id
 @router.get("/game/{id}", response_model=Game)
 def get_game_by_id(id: int, db: Session = Depends(db_setup.get_db)):
     """
     Get game by id
-    
+
     Parameters:
     - **id**: Game id
     """
@@ -161,7 +167,7 @@ def get_game_by_id(id: int, db: Session = Depends(db_setup.get_db)):
 def update_game_by_id(id: int, game: GameUpdate, db: Session = Depends(db_setup.get_db)):
     """
     Update game by id
-    
+
     Parameters:
     - **id**: Game id
     - **game**: Updated game data
@@ -171,7 +177,14 @@ def update_game_by_id(id: int, game: GameUpdate, db: Session = Depends(db_setup.
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Game with this id does not exists."
         )
+
+    # Update game genre associations
+    association_crud.update_associations(
+        db=db, game_id=id, updated_association_list=game.genre_list)
+
+    # Update game data
     db_game = game_crud.update_game(db=db, game=game, id=id)
+
     return db_game
 
 
@@ -179,7 +192,7 @@ def update_game_by_id(id: int, game: GameUpdate, db: Session = Depends(db_setup.
 def delete_game_by_id(id: int, db: Session = Depends(db_setup.get_db)):
     """
     Delete game by id
-    
+
     Parameters:
     - **id**: Game id
     """
@@ -188,5 +201,11 @@ def delete_game_by_id(id: int, db: Session = Depends(db_setup.get_db)):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Game already deleted."
         )
+
+    # Delete game genre associations
     game_crud.delete_game(db=db, id=id)
+
+    # Delete game genre associations
+    association_crud.delete_game_genre_association(db=db, game_id=id)
+
     return {"detail": f"Game with id {id} deleted successfully."}
