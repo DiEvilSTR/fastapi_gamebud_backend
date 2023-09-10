@@ -5,6 +5,14 @@ from core.db.models.mixins import Timestamp
 
 
 class Game(Timestamp, Base):
+    """
+    Game model
+
+    Fields:
+    - **id**: Game id
+    - **name**: Game name
+    - **description**: Game description
+    """
     __tablename__ = "games"
 
     id = Column(Integer, primary_key=True, index=True)

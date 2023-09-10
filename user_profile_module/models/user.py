@@ -8,6 +8,18 @@ from core.db.models.mixins import Timestamp
 
 
 class User(Timestamp, Base):
+    """
+    User model
+
+    Fields:
+    - **uuid**: User uuid
+    - **email**: User email
+    - **hashed_password**: User hashed password
+    - **nickname**: User nickname
+    - **bio**: User bio
+    - **is_active**: User is active
+    - **is_superuser**: User is superuser
+    """
     __tablename__ = "users"
 
     uuid: uuid_pkg.UUID = Column(

@@ -5,33 +5,59 @@ from game_base_module.models.game import Game
 from game_base_module.schemas.game import GameCreate, GameUpdate
 
 
-# 1 Read Game [Get game by id]
 def get_game_by_id(db: Session, id: str):
+    """
+    Get game by id
+
+    Parameters:
+    - **id**: Game id
+    """
     return db.query(Game).filter(Game.id == id).first()
 
 
-# 2 Read Game [Get game by name]
 def get_game_by_name(db: Session, name: str):
+    """
+    Get game by name
+
+    Parameters:
+    - **name**: Game name
+    """
     return db.query(Game).filter(Game.name == name).first()
 
 
-# TODO: Rename skip to offset
+def get_game_list(db: Session, offset: int = 0, limit: int = 100):
+    """
+    Get game list
 
-# 3 Read Game List [Get game list]
-def get_game_list(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(Game).offset(skip).limit(limit).all()
+    Parameters:
+    - **offset**: Skip the first N games
+    - **limit**: Limit the number of games returned
+    """
+    return db.query(Game).offset(offset).limit(limit).all()
 
 
-# 4 Read Game List with search parameters [Get game list with search parameters]
-def get_game_list_with_search_parameters(db: Session, skip: int = 0, limit: int = 100, search: str = None):
+def get_game_list_with_search_parameters(db: Session, offset: int = 0, limit: int = 100, search: str = None):
+    """
+    Get game list with search parameters
+
+    Parameters:
+    - **offset**: Skip the first N games
+    - **limit**: Limit the number of games returned
+    - **search**: Search games by name
+    """
     if search is not None:
-        return db.query(Game).filter(Game.name.icontains(search)).offset(skip).limit(limit).all()
+        return db.query(Game).filter(Game.name.icontains(search)).offset(offset).limit(limit).all()
     else:
-        return db.query(Game).offset(skip).limit(limit).all()
+        return db.query(Game).offset(offset).limit(limit).all()
 
 
-# 4 Add Game [Create game]
 def add_game(db: Session, game: GameCreate):
+    """
+    Add a new game to the database
+
+    Parameters:
+    - **game**: Game data to be added
+    """
     db_game = Game(name=game.name,
                    description=game.description)
     db.add(db_game)
@@ -40,8 +66,14 @@ def add_game(db: Session, game: GameCreate):
     return db_game.id
 
 
-# 5 Update Game [Update game]
 def update_game(db: Session, game: GameUpdate, id: int):
+    """
+    Update game by id
+
+    Parameters:
+    - **id**: Game id
+    - **game**: Updated game data
+    """
     db_game = get_game_by_id(db=db, id=id)
     updated_user = game.model_dump(exclude_unset=True)
     for key, value in updated_user.items():
@@ -52,8 +84,13 @@ def update_game(db: Session, game: GameUpdate, id: int):
     return db_game
 
 
-# 6 Delete Game [Delete game]
 def delete_game(db: Session, id: int):
+    """
+    Delete game by id
+
+    Parameters:
+    - **id**: Game id
+    """
     db_game = get_game_by_id(db=db, id=id)
     db.delete(db_game)
     db.commit()

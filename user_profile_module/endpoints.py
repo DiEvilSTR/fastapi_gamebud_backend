@@ -13,9 +13,14 @@ from user_profile_module.schemas.user import User, UserCreate, UserUpdate
 router = APIRouter()
 
 
-# 1 User Login [Login user]
 @router.post("/login", response_model=Token)
 def user_login(user: UserLogin, db: Session = Depends(db_setup.get_db)):
+    """
+    User login
+
+    Parameters:
+    - **user**: User login details
+    """
     if user_crud.authenticate(db=db, user=user):
         if user_crud.get_user_by_email(db=db, email=user.email).is_active is False:
             raise HTTPException(
@@ -29,16 +34,23 @@ def user_login(user: UserLogin, db: Session = Depends(db_setup.get_db)):
         )
 
 
-# 2 User Logout [Logout user]
 @router.post("/logout", dependencies=[Depends(jwt_scheme)])
 def user_logout(response: Response):
+    """
+    User logout
+    """
     response.delete_cookie(key="Authorization")
     return {"detail": "Successfully logged out!"}
 
 
-# 3 User Signup [Create a new user]
 @router.post("/signup", response_model=User, status_code=status.HTTP_201_CREATED)
 def user_signup(user: UserCreate, db: Session = Depends(db_setup.get_db)):
+    """
+    User signup
+
+    Parameters:
+    - **user**: User signup details
+    """
     db_user = user_crud.get_user_by_email(db=db, email=user.email)
     if db_user:
         raise HTTPException(
@@ -48,9 +60,11 @@ def user_signup(user: UserCreate, db: Session = Depends(db_setup.get_db)):
     return db_user
 
 
-# 4 Read current user [Get current user]
 @router.get("/me", response_model=User, dependencies=[Depends(jwt_scheme)])
 def read_current_user(db: Session = Depends(db_setup.get_db), current_user_email: str = Depends(jwt_scheme)):
+    """
+    Get current user
+    """
     db_user = user_crud.get_user_by_email(
         db=db, email=current_user_email)
     if db_user is None:
@@ -60,9 +74,14 @@ def read_current_user(db: Session = Depends(db_setup.get_db), current_user_email
     return db_user
 
 
-# 5 Update User Profile [Update user profile]
 @router.patch("/me", response_model=User, dependencies=[Depends(jwt_scheme)])
 def update_current_user(updated_user: UserUpdate, db: Session = Depends(db_setup.get_db), current_user_email: str = Depends(jwt_scheme)):
+    """
+    Update current user
+
+    Parameters:
+    - **updated_user**: Updated user data
+    """
     db_user = user_crud.get_user_by_email(
         db=db, email=current_user_email)
     if db_user is None:
@@ -74,9 +93,11 @@ def update_current_user(updated_user: UserUpdate, db: Session = Depends(db_setup
     return db_user
 
 
-# 6 Delete User [Delete user, user profile, and all user's tasks]
 @router.delete("/me", dependencies=[Depends(jwt_scheme)])
 def delete_current_user(response: Response, db: Session = Depends(db_setup.get_db), current_user_email: str = Depends(jwt_scheme)):
+    """
+    Delete current user
+    """
     db_user = user_crud.get_user_by_email(db=db, email=current_user_email)
     if db_user is None:
         raise HTTPException(

@@ -36,16 +36,16 @@ def add_new_game_genre(game_genre: GameGenreCreate, db: Session = Depends(db_set
 
 
 @router.get("/game_genre", response_model=List[GameGenreForList])
-def get_game_genre_list(skip: int = 0, limit: int = 100, db: Session = Depends(db_setup.get_db)):
+def get_game_genre_list(offset: int = 0, limit: int = 100, db: Session = Depends(db_setup.get_db)):
     """
     Get game genre list
 
     Parameters:
-    - **skip**: Skip the first N game genres
+    - **offset**: Skip the first N game genres
     - **limit**: Limit the number of game genres returned
     """
     db_game_genre_list = game_genre_crud.get_game_genre_list(
-        db=db, skip=skip, limit=limit)
+        db=db, offset=offset, limit=limit)
     return db_game_genre_list
 
 
@@ -133,17 +133,17 @@ def add_new_game(game: GameCreate, db: Session = Depends(db_setup.get_db)):
 
 
 @router.get("/game", response_model=List[Game])
-def get_game_list(skip: int = 0, limit: int = 100, search: str = None, db: Session = Depends(db_setup.get_db)):
+def get_game_list(offset: int = 0, limit: int = 100, search: str = None, db: Session = Depends(db_setup.get_db)):
     """
     Get game list
 
     Parameters:
-    - **skip**: Skip the first N games
+    - **offset**: Skip the first N games
     - **limit**: Limit the number of games returned
     - **search**: Search games by name
     """
     db_game_list = game_crud.get_game_list_with_search_parameters(
-        db=db, skip=skip, limit=limit, search=search)
+        db=db, offset=offset, limit=limit, search=search)
     return db_game_list
 
 
