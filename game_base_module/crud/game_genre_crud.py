@@ -9,8 +9,11 @@ from game_base_module.schemas.game_genre import GameGenreCreate, GameGenreUpdate
 def get_game_genre_by_id(db: Session, id: str):
     db_game_genre = db.query(GameGenre).filter(GameGenre.id == id).first()
 
-    # Calculate the number of associated games for each game genre
-    db_game_genre.number_of_games = db_game_genre.game_count
+    if db_game_genre is None:
+        return None
+    
+    # Calculate the number of associated games for game genre
+    db_game_genre.number_of_games = db_game_genre.game_count or 0
     return db_game_genre
 
 
@@ -18,8 +21,11 @@ def get_game_genre_by_id(db: Session, id: str):
 def get_game_genre_by_name(db: Session, name: str):
     db_game_genre = db.query(GameGenre).filter(GameGenre.name == name).first()
 
-    # Calculate the number of associated games for each game genre
-    db_game_genre.number_of_games = db_game_genre.game_count
+    if db_game_genre is None:
+        return None
+    
+    # Calculate the number of associated games for game genre
+    db_game_genre.number_of_games = db_game_genre.game_count or 0
     return db_game_genre
 
 
@@ -29,7 +35,7 @@ def get_game_genre_list(db: Session, skip: int = 0, limit: int = 100):
 
     # Calculate the number of associated games for each game genre
     for game_genre in db_game_genres:
-        game_genre.number_of_games = game_genre.game_count
+        game_genre.number_of_games = game_genre.game_count or 0
     return db_game_genres
 
 
@@ -40,6 +46,9 @@ def add_game_genre(db: Session, game_genre: GameGenreCreate):
     db.add(db_game_genre)
     db.commit()
     db.refresh(db_game_genre)
+    
+    # Calculate the number of associated games for game genre
+    db_game_genre.number_of_games = db_game_genre.game_count or 0
     return db_game_genre
 
 
@@ -52,6 +61,9 @@ def update_game_genre(db: Session, game_genre: GameGenreUpdate, id: int):
     db.add(db_game_genre)
     db.commit()
     db.refresh(db_game_genre)
+    
+    # Calculate the number of associated games for game genre
+    db_game_genre.number_of_games = db_game_genre.game_count or 0
     return db_game_genre
 
 
