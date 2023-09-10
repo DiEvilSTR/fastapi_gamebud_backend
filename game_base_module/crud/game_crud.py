@@ -15,20 +15,29 @@ def get_game_by_name(db: Session, name: str):
     return db.query(Game).filter(Game.name == name).first()
 
 
+# TODO: Rename skip to offset
+
 # 3 Read Game List [Get game list]
 def get_game_list(db: Session, skip: int = 0, limit: int = 100):
     return db.query(Game).offset(skip).limit(limit).all()
 
 
+# 4 Read Game List with search parameters [Get game list with search parameters]
+def get_game_list_with_search_parameters(db: Session, skip: int = 0, limit: int = 100, search: str = None):
+    if search is not None:
+        return db.query(Game).filter(Game.name.icontains(search)).offset(skip).limit(limit).all()
+    else:
+        return db.query(Game).offset(skip).limit(limit).all()
+
+
 # 4 Add Game [Create game]
 def add_game(db: Session, game: GameCreate):
     db_game = Game(name=game.name,
-                   description=game.description,
-                   genres=game.genres)
+                   description=game.description)
     db.add(db_game)
     db.commit()
     db.refresh(db_game)
-    return db_game
+    return db_game.id
 
 
 # 5 Update Game [Update game]
@@ -44,7 +53,7 @@ def update_game(db: Session, game: GameUpdate, id: int):
 
 
 # 6 Delete Game [Delete game]
-def delete_user(db: Session, id: int):
+def delete_game(db: Session, id: int):
     db_game = get_game_by_id(db=db, id=id)
     db.delete(db_game)
     db.commit()
