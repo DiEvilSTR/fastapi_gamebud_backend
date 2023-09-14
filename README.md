@@ -1,4 +1,4 @@
-# To Do List API
+# GameBud Backend Application
 
 GameBud Backend Application
 
