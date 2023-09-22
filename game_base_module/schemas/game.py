@@ -21,7 +21,7 @@ class GameCreate(GameBase):
     Create class for Game
 
     Fields:
-    - **name**: Game name
+    - **genre_list**: List of genre IDs
     """
     genre_list: List[int]  # List of genre IDs
 
@@ -58,6 +58,21 @@ class Game(GameBase):
     created_at: datetime
     updated_at: datetime
     genres: List[GameGenreForInGameList] = []
+
+    class Config:
+        from_attributes = True
+
+
+class GameForUserProfileData(GameBase):
+    """
+    Read class for Game
+
+    Fields:
+    - **id**: Game id
+    - **name**: Game name
+    """
+    id: int
+    name: str
 
     class Config:
         from_attributes = True

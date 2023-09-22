@@ -75,9 +75,15 @@ def update_game(db: Session, game: GameUpdate, id: int):
     - **game**: Updated game data
     """
     db_game = get_game_by_id(db=db, id=id)
-    updated_user = game.model_dump(exclude_unset=True)
-    for key, value in updated_user.items():
-        setattr(db_game, key, value)
+    updated_game = game.model_dump(exclude_unset=True)
+
+    # Get the list of attributes of the Game model
+    model_attributes = db_game.__table__.columns.keys()
+
+    for key, value in updated_game.items():
+        if key in model_attributes:
+            setattr(db_game, key, value)
+
     db.add(db_game)
     db.commit()
     db.refresh(db_game)

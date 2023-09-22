@@ -5,10 +5,10 @@ from typing import List
 from core.db import db_setup
 from core.jwt_authentication.jwt_bearer import jwt_scheme
 
-from game_base_module.crud import game_crud, game_genre_crud, association_crud
+from game_base_module.crud import game_crud, game_genre_association_crud, game_genre_crud
 from game_base_module.schemas.game import Game, GameCreate, GameUpdate
 from game_base_module.schemas.game_genre import GameGenre, GameGenreCreate, GameGenreUpdate, GameGenreForList
-from game_base_module.schemas.association import GameGenreAssociation
+from game_base_module.schemas.game_genre_association import GameGenreAssociation
 
 router = APIRouter()
 
@@ -102,7 +102,8 @@ def delete_game_genre_by_id(id: int, db: Session = Depends(db_setup.get_db)):
     game_genre_crud.delete_game_genre(db=db, id=id)
 
     # Delete game genre associations
-    association_crud.delete_game_genre_association(db=db, genre_id=id)
+    game_genre_association_crud.delete_game_genre_association(
+        db=db, genre_id=id)
     return {"detail": f"Game genre with id {id} deleted successfully."}
 
 
@@ -125,7 +126,7 @@ def add_new_game(game: GameCreate, db: Session = Depends(db_setup.get_db)):
     # Add game to the database and get the game id
     db_game_id = game_crud.add_game(db=db, game=game)
     # Add game genre associations to the database
-    association_crud.add_association(
+    game_genre_association_crud.add_association(
         db=db, game_id=db_game_id, association_list=game.genre_list)
     # Get the game from the database
     db_game = game_crud.get_game_by_id(db=db, id=db_game_id)
@@ -179,7 +180,7 @@ def update_game_by_id(id: int, game: GameUpdate, db: Session = Depends(db_setup.
         )
 
     # Update game genre associations
-    association_crud.update_associations(
+    game_genre_association_crud.update_associations(
         db=db, game_id=id, updated_association_list=game.genre_list)
 
     # Update game data
@@ -202,10 +203,11 @@ def delete_game_by_id(id: int, db: Session = Depends(db_setup.get_db)):
             status_code=status.HTTP_404_NOT_FOUND, detail="Game already deleted."
         )
 
-    # Delete game genre associations
+    # Delete game
     game_crud.delete_game(db=db, id=id)
 
     # Delete game genre associations
-    association_crud.delete_game_genre_association(db=db, game_id=id)
+    game_genre_association_crud.delete_game_genre_association(
+        db=db, game_id=id)
 
     return {"detail": f"Game with id {id} deleted successfully."}

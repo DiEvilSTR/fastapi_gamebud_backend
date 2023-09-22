@@ -1,1 +1,2 @@
 from user_profile_module.models.user import User
+from user_profile_module.models.user_game_association import UserGameAssociation

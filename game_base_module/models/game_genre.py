@@ -14,6 +14,9 @@ class GameGenre(Timestamp, Base):
     - **id**: Game genre id
     - **name**: Game genre name
     - **description**: Game genre description
+
+    Relationships:
+    - **games**: Game genre games
     """
     __tablename__ = "game_genres"
 

@@ -2,27 +2,17 @@ from decouple import config
 from sqlalchemy.orm import Session
 from typing import List
 
-from game_base_module.models.association import GameGenreAssociation
+from game_base_module.models.game_genre_association import GameGenreAssociation
 
 
 def get_association_by_game_id(db: Session, game_id: int):
     """
-    Get association by game id
+    Get game-genre association by game id
 
     Parameters:
     - **game_id**: Game id
     """
     return db.query(GameGenreAssociation).filter(GameGenreAssociation.game_id == game_id).first()
-
-
-def get_game_genre_by_name(db: Session, genre_id: int):
-    """
-    Get association by genre id
-
-    Parameters:
-    - **genre_id**: Genre id
-    """
-    return db.query(GameGenreAssociation).filter(GameGenreAssociation.genre_id == genre_id).first()
 
 
 def count_associated_games_by_genre_id(db: Session, genre_id: int):
@@ -37,7 +27,7 @@ def count_associated_games_by_genre_id(db: Session, genre_id: int):
 
 def get_certain_association(db: Session, game_id: int, genre_id: int):
     """
-    Get certain association
+    Get certain game-genre association
 
     Parameters:
     - **game_id**: Game id
