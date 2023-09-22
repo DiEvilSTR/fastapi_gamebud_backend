@@ -38,8 +38,9 @@ This is a simple RESTful API for a GameBud Backend application. The API is built
 - POST `/user/logout`: Deletes authentication cookies
 - POST `/user/create`: Creates a new user
 - GET `/user/me`: Returns current user's profile
-- PATCH `/user/me`: Updates current user's profile
-- DELETE `/user/me`: Deletes current user, user's profile, and all user's tasks
+- GET `/user/me/update`: Returns current user's profile for update
+- PATCH `/user/me/update`: Updates current user's profile
+- DELETE `/user/me/delete`: Deletes current user
 
 ### Game base
 - POST `/game_genre`: Add a new game genre

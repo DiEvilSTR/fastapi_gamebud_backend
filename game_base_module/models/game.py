@@ -12,6 +12,10 @@ class Game(Timestamp, Base):
     - **id**: Game id
     - **name**: Game name
     - **description**: Game description
+
+    Relationships:
+    - **genres**: Game genres
+    - **users**: Users who have this game
     """
     __tablename__ = "games"
 
@@ -22,3 +26,5 @@ class Game(Timestamp, Base):
     # Define the relationship to the GameGenre model
     genres = relationship(
         "GameGenre", secondary="game_genre_association", back_populates="games")
+    users = relationship(
+        "User", secondary="user_game_association", back_populates="games")

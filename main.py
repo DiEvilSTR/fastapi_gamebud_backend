@@ -7,14 +7,15 @@ from core.config import settings
 from core.db.db_setup import engine
 
 # Models
-from user_profile_module.models import user
-from game_base_module.models import game, game_genre, association
+from user_profile_module.models import user, user_game_association
+from game_base_module.models import game, game_genre, game_genre_association
 
 # Create all tables
-user.Base.metadata.create_all(bind=engine)
 game.Base.metadata.create_all(bind=engine)
 game_genre.Base.metadata.create_all(bind=engine)
-association.Base.metadata.create_all(bind=engine)
+game_genre_association.Base.metadata.create_all(bind=engine)
+user.Base.metadata.create_all(bind=engine)
+user_game_association.Base.metadata.create_all(bind=engine)
 
 # Application
 app = FastAPI(

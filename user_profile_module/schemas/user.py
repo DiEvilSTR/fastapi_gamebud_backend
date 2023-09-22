@@ -1,6 +1,8 @@
 from datetime import datetime
 from pydantic import BaseModel, EmailStr
-from typing import Optional
+from typing import Optional, List
+
+from game_base_module.schemas.game import GameForUserProfileData
 
 
 class UserBase(BaseModel):
@@ -19,9 +21,11 @@ class UserCreate(UserBase):
 
     Fields:
     - **email**: User email
+    - **birthday**: User birthday
     - **password**: User password
     """
     email: EmailStr
+    birthday: datetime
     password: str
 
 
@@ -30,9 +34,15 @@ class UserUpdate(UserBase):
     Update class for User
 
     Fields:
+    - **nickname**: User nickname
+    - **birthday**: User birthday
     - **bio**: User bio
+    - **games**: List of games associated with this user
     """
+    nickname: Optional[str] = None
+    birthday: Optional[datetime] = None
     bio: Optional[str] = None
+    games: Optional[List[int]] = None
 
 
 class UserDeactivate(UserBase):
@@ -50,24 +60,36 @@ class User(UserBase):
     Read class for User
 
     Fields:
-    - **id**: User id
     - **uuid**: User uuid
-    - **email**: User email
     - **nickname**: User nickname
+    - **age**: User age
     - **bio**: User bio
-    - **is_active**: User active status
-    - **is_superuser**: User superuser status
-    - **created_at**: User creation datetime
-    - **updated_at**: User update datetime
+    - **games**: List of games associated with this user
     """
     uuid: str
-    email: EmailStr
     nickname: str
+    age: int
     bio: Optional[str] = None
-    is_active: bool
-    is_superuser: bool
+    games: Optional[List[GameForUserProfileData]] = []
     created_at: datetime
     updated_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class UserInDBForUpdate(UserBase):
+    """
+    User in database for update class
+
+    Fields:
+    - **birthday**: User birthday
+    - **bio**: User bio
+    - **games**: List of games associated with this user
+    """
+    birthday: datetime
+    bio: Optional[str] = None
+    games: Optional[List[GameForUserProfileData]] = []
 
     class Config:
         from_attributes = True
