@@ -5,10 +5,27 @@ from .jwt_handler import decode_jwt
 
 
 class JWTBearer(HTTPBearer):
+    """
+    JWTBearer class
+    
+    This class is used to verify the JWT token sent by the user.
+    """
     def __init__(self, auto_error: bool = True):
+        """
+        Constructor method
+        
+        Parameters:
+        - **auto_error**: If True, will raise HTTPException if the token is invalid or expired.
+        """
         super(JWTBearer, self).__init__(auto_error=auto_error)
 
     async def __call__(self, request: Request):
+        """
+        Call method
+        
+        Parameters:
+        - **request**: Request object with the token.
+        """
         credentials: HTTPAuthorizationCredentials = await super(JWTBearer, self).__call__(request)
         if credentials:
             if not credentials.scheme == "Bearer":

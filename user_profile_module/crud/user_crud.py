@@ -113,6 +113,6 @@ def authenticate(db: Session, user: UserLogin):
     """
     db_user = get_user_by_email(db=db, email=user.email)
     if db_user and verify_password(user.password, db_user.hashed_password):
-        return True
+        return db_user
     else:
         return None

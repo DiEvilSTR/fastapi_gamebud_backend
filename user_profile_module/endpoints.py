@@ -22,17 +22,18 @@ def user_login(user: UserLogin, db: Session = Depends(db_setup.get_db)):
     Parameters:
     - **user**: User login details
     """
-    if user_crud.authenticate(db=db, user=user):
-        if user_crud.get_user_by_email(db=db, email=user.email).is_active is False:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, detail="User is inactive. Please contact the admin."
-            )
-        else:
-            return jwt_handler.sign_jwt(user.email)
-    else:
+    db_user = user_crud.authenticate(db=db, user=user)
+    if db_user is None:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid login details!"
+            status_code=status.HTTP_404_NOT_FOUND, detail="Invalid login details!"
         )
+    
+    if db_user.is_active is False:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="User is inactive. Please contact the admin."
+        )
+    else:
+        return jwt_handler.sign_jwt(db_user.uuid)
 
 
 @router.post("/logout", dependencies=[Depends(jwt_scheme)])

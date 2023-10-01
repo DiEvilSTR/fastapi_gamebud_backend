@@ -15,10 +15,24 @@ class BudMatchBase(BaseModel):
 
 
 class BudMatchCreate(BudMatchBase):
+    """
+    Create class for BudMatch
+    
+    Fields:
+    - **user_one_id**: User one id
+    - **user_two_id**: User two id
+    """
     pass
 
 
 class BudMatchUpdate(BudMatchBase):
+    """
+    Update class for BudMatch
+    
+    Fields:
+    - **user_one_id**: User one id
+    - **user_two_id**: User two id
+    """
     pass
 
 

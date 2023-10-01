@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 
 from core.db.db_setup import Base
 from core.db.models.mixins import Timestamp
@@ -9,12 +9,14 @@ class BudLike(Timestamp, Base):
     UserLike model
 
     Fields:
-    - **swiper_id**: Swiper id
-    - **swiped_id**: Swiped id
-    - **is_like**: Another user was liked or disliked
+    - **id**: Like id
+    - **swiper_id**: User who liked
+    - **swiped_id**: User who was liked
+    - **is_like**: True if user liked, False if disliked
     """
     __tablename__ = "user_likes"
 
-    swiper_id = Column(String, ForeignKey("users.uuid"), primary_key=True)
-    swiped_id = Column(String, ForeignKey("users.uuid"), primary_key=True)
+    id = Column(Integer, primary_key=True, index=True)
+    swiper_id = Column(String, ForeignKey("users.uuid"))
+    swiped_id = Column(String, ForeignKey("users.uuid"))
     is_like = Column(Boolean, nullable=False)
