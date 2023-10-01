@@ -27,7 +27,7 @@ def user_login(user: UserLogin, db: Session = Depends(db_setup.get_db)):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Invalid login details!"
         )
-    
+
     if db_user.is_active is False:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="User is inactive. Please contact the admin."
@@ -63,46 +63,46 @@ def user_signup(user: UserCreate, db: Session = Depends(db_setup.get_db)):
 
 
 @router.get("/me", response_model=User, dependencies=[Depends(jwt_scheme)])
-def read_current_user(db: Session = Depends(db_setup.get_db), current_user_email: str = Depends(jwt_scheme)):
+def read_current_user(db: Session = Depends(db_setup.get_db), current_user_id: str = Depends(jwt_scheme)):
     """
     Get current user
     """
-    db_user = user_crud.get_user_by_email(
-        db=db, email=current_user_email)
+    db_user = user_crud.get_user_by_uuid(
+        db=db, uuid=current_user_id)
     if db_user is None:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="User with this email does not exists."
+            status_code=status.HTTP_404_NOT_FOUND, detail="User with this uuid does not exists."
         )
     return db_user
 
 
 @router.get("/me/update", response_model=UserInDBForUpdate, dependencies=[Depends(jwt_scheme)])
-def read_current_user_for_update(db: Session = Depends(db_setup.get_db), current_user_email: str = Depends(jwt_scheme)):
+def read_current_user_for_update(db: Session = Depends(db_setup.get_db), current_user_id: str = Depends(jwt_scheme)):
     """
     Get current user for update
     """
-    db_user = user_crud.get_user_by_email_for_update(
-        db=db, email=current_user_email)
+    db_user = user_crud.get_user_by_uuid_for_update(
+        db=db, uuid=current_user_id)
     if db_user is None:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="User with this email does not exists."
+            status_code=status.HTTP_404_NOT_FOUND, detail="User with this uuid does not exists."
         )
     return db_user
 
 
 @router.patch("/me/update", response_model=User, dependencies=[Depends(jwt_scheme)])
-def update_current_user(updated_user: UserUpdate, db: Session = Depends(db_setup.get_db), current_user_email: str = Depends(jwt_scheme)):
+def update_current_user(updated_user: UserUpdate, db: Session = Depends(db_setup.get_db), current_user_id: str = Depends(jwt_scheme)):
     """
     Update current user
 
     Parameters:
     - **updated_user**: Updated user data
     """
-    db_user = user_crud.get_user_by_email_for_update(
-        db=db, email=current_user_email)
+    db_user = user_crud.get_user_by_uuid_for_update(
+        db=db, uuid=current_user_id)
     if db_user is None:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="User with this email does not exists."
+            status_code=status.HTTP_404_NOT_FOUND, detail="User with this uuid does not exists."
         )
 
     if updated_user.games:
@@ -118,23 +118,23 @@ def update_current_user(updated_user: UserUpdate, db: Session = Depends(db_setup
 
     # Update user data
     db_user = user_crud.update_user(
-        db=db, user=updated_user, email=current_user_email)
+        db=db, user=updated_user, uuid=current_user_id)
     return db_user
 
 
 @router.delete("/me/delete", dependencies=[Depends(jwt_scheme)])
-def delete_current_user(response: Response, db: Session = Depends(db_setup.get_db), current_user_email: str = Depends(jwt_scheme)):
+def delete_current_user(response: Response, db: Session = Depends(db_setup.get_db), current_user_id: str = Depends(jwt_scheme)):
     """
     Delete current user
     """
-    db_user = user_crud.get_user_by_email(db=db, email=current_user_email)
+    db_user = user_crud.get_user_by_uuid(db=db, uuid=current_user_id)
     if db_user is None:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="User with this email does not exists."
+            status_code=status.HTTP_404_NOT_FOUND, detail="User with this uuid does not exists."
         )
 
     # Delete user
-    user_crud.delete_user(db=db, email=current_user_email)
+    user_crud.delete_user(db=db, uuid=current_user_id)
 
     # Delete user-game associations
     user_game_association_crud.delete_user_game_association(
@@ -142,4 +142,4 @@ def delete_current_user(response: Response, db: Session = Depends(db_setup.get_d
 
     # Delete cookie
     response.delete_cookie(key="Authorization")
-    return {"detail": f"User with email {current_user_email} deleted successfully."}
+    return {"detail": "User deleted successfully."}

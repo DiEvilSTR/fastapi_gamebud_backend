@@ -13,7 +13,14 @@ def get_user_by_uuid(db: Session, uuid: str):
     Parameters:
     - **uuid**: User uuid
     """
-    return db.query(User).filter(User.uuid == uuid).first()
+    db_user = db.query(User).filter(User.uuid == uuid).first()
+
+    if db_user is None:
+        return None
+
+    # Calculate user's age
+    db_user.age = db_user.count_age
+    return db_user
 
 
 def get_user_by_email(db: Session, email: str):
@@ -33,14 +40,14 @@ def get_user_by_email(db: Session, email: str):
     return db_user
 
 
-def get_user_by_email_for_update(db: Session, email: str):
+def get_user_by_uuid_for_update(db: Session, uuid: str):
     """
     Get user by email for update
 
     Parameters:
-    - **email**: User email
+    - **uuid**: User uuid
     """
-    return db.query(User).filter(User.email == email).first()
+    return db.query(User).filter(User.uuid == uuid).first()
 
 
 def create_user(db: Session, user: UserCreate):
@@ -64,15 +71,15 @@ def create_user(db: Session, user: UserCreate):
     return db_user
 
 
-def update_user(db: Session, user: UserUpdate, email: str):
+def update_user(db: Session, user: UserUpdate, uuid: str):
     """
     Update user in the database
 
     Parameters:
     - **user**: User data to be updated
-    - **email**: User email
+    - **uuid**: User uuid
     """
-    db_user = get_user_by_email_for_update(db=db, email=email)
+    db_user = get_user_by_uuid_for_update(db=db, uuid=uuid)
     updated_user = user.model_dump(exclude_unset=True)
 
     # Get the list of model attributes
@@ -91,14 +98,14 @@ def update_user(db: Session, user: UserUpdate, email: str):
     return db_user
 
 
-def delete_user(db: Session, email: str):
+def delete_user(db: Session, uuid: str):
     """
     Delete user from the database
 
     Parameters:
-    - **email**: User email
+    - **uuid**: User uuid
     """
-    db_user = get_user_by_email(db=db, email=email)
+    db_user = get_user_by_uuid(db=db, uuid=uuid)
     db.delete(db_user)
     db.commit()
     return db_user
