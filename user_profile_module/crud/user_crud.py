@@ -1,5 +1,3 @@
-from decouple import config
-from datetime import datetime
 from sqlalchemy.orm import Session
 
 from core.security import get_password_hash, verify_password
