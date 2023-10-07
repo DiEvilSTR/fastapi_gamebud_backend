@@ -24,4 +24,4 @@ def fetch_bud_list(offset: int = 0, limit: int = 10, db: Session = Depends(db_se
     - **offset**: Offset
     - **limit**: Limit
     """
-    return bud_list_crud.read_list_of_users(db, offset, limit)
+    return bud_list_crud.find_potential_matches(db, offset, limit)

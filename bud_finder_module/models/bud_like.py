@@ -6,7 +6,7 @@ from core.db.models.mixins import Timestamp
 
 class BudLike(Timestamp, Base):
     """
-    UserLike model
+    BudLike model
 
     Fields:
     - **id**: Like id
@@ -14,7 +14,7 @@ class BudLike(Timestamp, Base):
     - **swiped_id**: User who was liked
     - **is_like**: True if user liked, False if disliked
     """
-    __tablename__ = "user_likes"
+    __tablename__ = "bud_likes"
 
     id = Column(Integer, primary_key=True, index=True)
     swiper_id = Column(String, ForeignKey("users.uuid"))

@@ -7,6 +7,9 @@ from alembic import context
 
 from core.config import settings
 from core.db.db_setup import Base
+
+# Import all models here for 'autogenerate' support
+from bud_finder_module import BudLike, BudMatch
 from user_profile_module import User, UserGameAssociation
 from game_base_module import Game, GameGenre, GameGenreAssociation
 

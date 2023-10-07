@@ -1,12 +1,19 @@
 from datetime import datetime
 import uuid as uuid_pkg
 
-from sqlalchemy import Boolean, Column, DateTime, Integer, ForeignKey, String
+from sqlalchemy import Boolean, Column, DateTime, Enum, Integer, ForeignKey, String
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.hybrid import hybrid_property
 
 from core.db.db_setup import Base
 from core.db.models.mixins import Timestamp
+
+
+gender_enum = (
+    "female",
+    "male",
+    "other",
+)
 
 
 class User(Timestamp, Base):
@@ -18,6 +25,8 @@ class User(Timestamp, Base):
     - **email**: User email
     - **hashed_password**: User hashed password
     - **nickname**: User nickname
+    - **birthday**: User birthday
+    - **gender**: User gender, True for female / False for male
     - **bio**: User bio
     - **is_active**: User is active
     - **is_superuser**: User is superuser
@@ -39,6 +48,8 @@ class User(Timestamp, Base):
     hashed_password = Column(String, nullable=False)
     nickname = Column(String(16), nullable=False)
     birthday = Column(DateTime, nullable=False)
+    gender = Column(Enum(*gender_enum, name="gender_enum"),
+                    nullable=False)
     bio = Column(String(500), nullable=True)
     is_active = Column(Boolean, default=True, nullable=False)
     is_superuser = Column(Boolean, default=False, nullable=False)
