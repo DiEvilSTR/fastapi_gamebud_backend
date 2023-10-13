@@ -1,9 +1,6 @@
 from datetime import datetime
 import uuid as uuid_pkg
 from enum import Enum
-from enum import auto
-
-from fastapi_utils.enums import StrEnum
 
 from sqlalchemy import Boolean, Column, DateTime, Integer, ForeignKey, String
 from sqlalchemy.dialects.postgresql import ENUM
@@ -14,10 +11,10 @@ from core.db.db_setup import Base
 from core.db.models.mixins import Timestamp
 
 
-class GenderEnum(StrEnum):
-    female = auto()
-    male = auto()
-    other = auto()
+class GenderEnum(str, Enum):
+    female = "female"
+    male = "male"
+    other = "other"
 
 
 class User(Timestamp, Base):

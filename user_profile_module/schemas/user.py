@@ -1,16 +1,15 @@
 from datetime import datetime
-from enum import auto
-from fastapi_utils.enums import StrEnum
+from enum import Enum
 from pydantic import BaseModel, EmailStr
 from typing import Optional, List
 
 from game_base_module.schemas.game import GameForUserProfileData
 
 
-class GenderEnum(StrEnum):
-    female = auto()
-    male = auto()
-    other = auto()
+class GenderEnum(str, Enum):
+    female = "female"
+    male = "male"
+    other = "other"
 
 
 class UserBase(BaseModel):

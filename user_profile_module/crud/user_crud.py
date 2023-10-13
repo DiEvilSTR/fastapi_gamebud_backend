@@ -61,7 +61,8 @@ def create_user(db: Session, user: UserCreate):
     db_user = User(email=user.email,
                    hashed_password=hashed_password,
                    birthday=user.birthday,
-                   nickname=user.nickname)
+                   nickname=user.nickname,
+                   gender=user.gender)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
