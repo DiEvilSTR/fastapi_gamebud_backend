@@ -1,14 +1,3 @@
-from sqlalchemy.orm import Session
-
-from core.db import db_setup
-from game_base_module import Game, GameGenre, GameGenreAssociation
-from game_base_module.crud import game_crud, game_genre_crud, game_genre_association_crud
-from game_base_module.schemas.game import GameCreate
-from game_base_module.schemas.game_genre import GameGenreCreate
-from user_profile_module import User, UserGameAssociation
-from user_profile_module.schemas.user import UserCreate, UserUpdate
-from user_profile_module.crud import user_crud, user_game_association_crud
-
 # region Users
 users = [
     {
@@ -451,33 +440,3 @@ games = [
     },
 ]
 # endregion
-
-
-# Add items to database
-def populate_database(db: Session, users, genres, games):
-    # Add genres
-    for genre in genres:
-        new_genre = GameGenreCreate(
-            name=genre["name"], description=genre["description"])
-        game_genre_crud.create(db, new_genre)
-
-    # Add games
-    for game in games:
-        new_game = GameCreate(
-            name=game["name"], description=game["description"])
-        new_game_id = game_crud.add_game(db, new_game)
-        game_genre_association_crud.add_association(
-            db, game_id=new_game_id, genre_id=game["genre_list"])
-
-    # Add users
-    for user in users:
-        new_user = UserCreate(user)
-        new_user_id = user_crud.create_user(db, new_user).uuid
-
-        # Add user-game associations
-        user_game_association_crud.add_associations(
-            db, user_id=new_user_id, game_ids=user["games"])
-
-
-populate_database(db=db_setup.get_db, users=users,
-                  genres=genres, games=games)

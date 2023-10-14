@@ -1,8 +1,7 @@
 from datetime import datetime
 import uuid as uuid_pkg
-from enum import Enum
 
-from sqlalchemy import Boolean, Column, DateTime, Integer, ForeignKey, String
+from sqlalchemy import Boolean, Column, DateTime, String
 from sqlalchemy.dialects.postgresql import ENUM
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
@@ -10,11 +9,7 @@ from sqlalchemy.orm import relationship
 from core.db.db_setup import Base
 from core.db.models.mixins import Timestamp
 
-
-class GenderEnum(str, Enum):
-    female = "female"
-    male = "male"
-    other = "other"
+from user_profile_module.constants import GenderEnum
 
 
 class User(Timestamp, Base):

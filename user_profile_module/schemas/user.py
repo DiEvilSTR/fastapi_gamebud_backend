@@ -1,15 +1,9 @@
 from datetime import datetime
-from enum import Enum
 from pydantic import BaseModel, EmailStr
 from typing import Optional, List
 
 from game_base_module.schemas.game import GameForUserProfileData
-
-
-class GenderEnum(str, Enum):
-    female = "female"
-    male = "male"
-    other = "other"
+from user_profile_module.constants import GenderEnum
 
 
 class UserBase(BaseModel):
