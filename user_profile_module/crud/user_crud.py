@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+import uuid as uuid_pkg
 
 from core.security import get_password_hash, verify_password
 from user_profile_module.models.user import User
@@ -57,12 +58,15 @@ def create_user(db: Session, user: UserCreate):
     Parameters:
     - **user**: User data to be added
     """
+    new_user_uuid = str(uuid_pkg.uuid4())
     hashed_password = get_password_hash(user.password)
-    db_user = User(email=user.email,
+    db_user = User(birthday=user.birthday,
+                   email=user.email,
+                   gender=user.gender,
                    hashed_password=hashed_password,
-                   birthday=user.birthday,
                    nickname=user.nickname,
-                   gender=user.gender)
+                   uuid=new_user_uuid
+                   )
     db.add(db_user)
     db.commit()
     db.refresh(db_user)

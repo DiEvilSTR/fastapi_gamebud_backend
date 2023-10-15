@@ -15,8 +15,8 @@ router = APIRouter()
 # Game genre endpoints
 
 
-@router.get("/list", response_model=List[User])
-def fetch_bud_list(offset: int = 0, limit: int = 10, db: Session = Depends(db_setup.get_db)):
+@router.get("/list")
+def fetch_bud_list(db: Session = Depends(db_setup.get_db), current_user_id: str = Depends(jwt_scheme)):
     """
     Get list of new users
 
@@ -24,4 +24,4 @@ def fetch_bud_list(offset: int = 0, limit: int = 10, db: Session = Depends(db_se
     - **offset**: Offset
     - **limit**: Limit
     """
-    return bud_list_crud.find_potential_matches(db, offset, limit)
+    return bud_list_crud.find_potential_matches(db=db, user_id=current_user_id, min_age=18, max_age=100)

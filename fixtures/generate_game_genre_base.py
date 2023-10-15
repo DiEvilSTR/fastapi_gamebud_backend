@@ -9,19 +9,19 @@ from user_profile_module.crud import user_crud, user_game_association_crud
 
 # Add items to database
 def populate_database(db: Session, users, genres, games):
-    # # Add genres
-    # for genre in genres:
-    #     new_genre = GameGenreCreate(
-    #         name=genre["name"], description=genre["description"])
-    #     game_genre_crud.add_game_genre(db, new_genre)
+    # Add genres
+    for genre in genres:
+        new_genre = GameGenreCreate(
+            name=genre["name"], description=genre["description"])
+        game_genre_crud.add_game_genre(db, new_genre)
 
-    # # Add games
-    # for game in games:
-    #     new_game = GameCreate(
-    #         name=game["name"], description=game["description"], genre_list=game["genre_list"])
-    #     new_game_id = game_crud.add_game(db, new_game)
-    #     game_genre_association_crud.add_association(
-    #         db, game_id=new_game_id, association_list=game["genre_list"])
+    # Add games
+    for game in games:
+        new_game = GameCreate(
+            name=game["name"], description=game["description"], genre_list=game["genre_list"])
+        new_game_id = game_crud.add_game(db, new_game)
+        game_genre_association_crud.add_association(
+            db, game_id=new_game_id, association_list=game["genre_list"])
 
     # Add users
     for user in users:

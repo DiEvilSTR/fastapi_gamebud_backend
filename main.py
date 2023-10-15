@@ -1,6 +1,7 @@
 import uvicorn
 
 from fastapi import FastAPI
+from starlette.responses import RedirectResponse
 
 from core.api_v1_router import api_router
 from core.config import settings
@@ -30,5 +31,13 @@ app = FastAPI(
         "email": settings.AUTHOR_EMAIL,
     }
 )
+
+
+@app.get("/")
+async def redirect_to_docs():
+    """
+    Redirect to docs
+    """
+    return RedirectResponse(url="/docs")
 
 app.include_router(api_router, prefix=settings.API_V1_STR)

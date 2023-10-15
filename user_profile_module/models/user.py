@@ -36,9 +36,8 @@ class User(Timestamp, Base):
         String,
         primary_key=True,
         index=True,
-        default=str(uuid_pkg.uuid4()),
         nullable=False,
-        unique=True,
+        unique=True
     )
     email = Column(String, nullable=False, unique=True)
     hashed_password = Column(String, nullable=False)

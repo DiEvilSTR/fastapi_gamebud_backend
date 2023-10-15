@@ -150,7 +150,7 @@ users = [
         "birthday": "1988-12-11T14:40:00.000Z",
         "gender": "male",
         "password": "S@am12345",
-        "games": [19, 10, 21]
+        "games": [19, 10, 20]
     },
     {
         "nickname": "Tracy Turner",
