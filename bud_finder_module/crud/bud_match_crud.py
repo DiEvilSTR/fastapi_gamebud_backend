@@ -4,6 +4,18 @@ from bud_finder_module.models.bud_match import BudMatch
 from bud_finder_module.schemas.bud_match import BudMatchCreate, BudMatchUpdate
 
 
+def fetch_matches(db: Session, user_id: str):
+    """
+    Fetch matches for user
+
+    Parameters:
+    - **user_id**: User id
+    """
+    return db.query(BudMatch).filter(
+        (BudMatch.user_one_id == user_id) | (BudMatch.user_two_id == user_id)
+    ).all()
+
+
 def create_match(db: Session, id_one: str, id_two: str):
     """
     Create a new match in the database
@@ -32,36 +44,24 @@ def get_match_between_two_buds(db: Session, id_one: str, id_two: str):
     ).first()
 
 
-def get_match_by_id(db: Session, id: int):
+def get_match_by_match_id(db: Session, match_id: int):
     """
     Get match from the database
 
     Parameters:
-    - **id**: Match id
+    - **match_id**: Match id
     """
-    return db.query(BudMatch).filter(BudMatch.id == id).first()
+    return db.query(BudMatch).filter(BudMatch.id == match_id).first()
 
 
-def get_all_matches_for_user(db: Session, id: str):
-    """
-    Get all matches for user
-
-    Parameters:
-    - **id**: User id
-    """
-    return db.query(BudMatch).filter(
-        (BudMatch.user_one_id == id) | (BudMatch.user_two_id == id)
-    ).all()
-
-
-def delete_match_by_match_id(db: Session, id: int):
+def delete_match_by_match_id(db: Session, match_id: int):
     """
     Delete match from the database
 
     Parameters:
-    - **id**: Match id
+    - **match_id**: Match id
     """
-    db_match = db.query(BudMatch).filter(BudMatch.id == id).first()
+    db_match = db.query(BudMatch).filter(BudMatch.id == match_id).first()
     db.delete(db_match)
     db.commit()
 

@@ -17,7 +17,7 @@ class BudMatchBase(BaseModel):
 class BudMatchCreate(BudMatchBase):
     """
     Create class for BudMatch
-    
+
     Fields:
     - **user_one_id**: User one id
     - **user_two_id**: User two id
@@ -28,7 +28,7 @@ class BudMatchCreate(BudMatchBase):
 class BudMatchUpdate(BudMatchBase):
     """
     Update class for BudMatch
-    
+
     Fields:
     - **user_one_id**: User one id
     - **user_two_id**: User two id
@@ -46,5 +46,9 @@ class BudMatch(BudMatchBase):
     - **created_at**: BudMatch creation datetime
     - **updated_at**: BudMatch update datetime
     """
+    id: int
     created_at: datetime
     updated_at: datetime
+
+    class Config:
+        from_attributes = True

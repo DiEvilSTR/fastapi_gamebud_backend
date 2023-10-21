@@ -6,7 +6,14 @@ users = [
         "birthday": "1990-03-15T10:30:00.000Z",
         "gender": "female",
         "password": "password123",
-        "games": [1, 2, 3]
+        "games": [1, 2, 3],
+        "country": "China",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "China"
+        },
+        "gender_filter": ["female", "other", "male"]
     },
     {
         "nickname": "Bob Smith",
@@ -14,7 +21,14 @@ users = [
         "birthday": "1985-08-22T16:45:00.000Z",
         "gender": "male",
         "password": "securePass",
-        "games": [1, 4, 5]
+        "games": [1, 4, 5],
+        "country": "India",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "India"
+        },
+        "gender_filter": ["female", "other", "male"]
     },
     {
         "nickname": "Charlie Brown",
@@ -22,7 +36,14 @@ users = [
         "birthday": "1992-05-03T08:15:00.000Z",
         "gender": "male",
         "password": "myP@ssw0rd",
-        "games": [1, 3, 6]
+        "games": [1, 3, 6],
+        "country": "India",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "India"
+        },
+        "gender_filter": ["female", "other", "male"]
     },
     {
         "nickname": "David Lee",
@@ -30,7 +51,14 @@ users = [
         "birthday": "1987-11-11T12:00:00.000Z",
         "gender": "male",
         "password": "davidPass123",
-        "games": [7, 8, 9]
+        "games": [7, 8, 9],
+        "country": "Colombia",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Colombia"
+        },
+        "gender_filter": ["female"]
     },
     {
         "nickname": "Emily Davis",
@@ -38,7 +66,14 @@ users = [
         "birthday": "1988-09-05T14:20:00.000Z",
         "gender": "female",
         "password": "eMiLy789",
-        "games": [1, 10, 11]
+        "games": [1, 10, 11],
+        "country": "Colombia",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Colombia"
+        },
+        "gender_filter": ["female"]
     },
     {
         "nickname": "Frankie Adams",
@@ -46,7 +81,14 @@ users = [
         "birthday": "1995-07-28T11:10:00.000Z",
         "gender": "male",
         "password": "secureFrank",
-        "games": [12, 13, 14]
+        "games": [12, 13, 14],
+        "country": "Colombia",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Colombia"
+        },
+        "gender_filter": ["female", "other", "male"]
     },
     {
         "nickname": "Grace Evans",
@@ -54,7 +96,14 @@ users = [
         "birthday": "1984-12-18T09:00:00.000Z",
         "gender": "female",
         "password": "graceful@123",
-        "games": [15, 16, 17]
+        "games": [15, 16, 17],
+        "country": "Colombia",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Colombia"
+        },
+        "gender_filter": ["female", "other", "male"]
     },
     {
         "nickname": "Hank Wilson",
@@ -62,7 +111,14 @@ users = [
         "birthday": "1991-02-27T15:55:00.000Z",
         "gender": "male",
         "password": "H@nkIsCool",
-        "games": [1, 18, 19]
+        "games": [1, 18, 19],
+        "country": "Sweden",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Sweden"
+        },
+        "gender_filter": ["female", "other", "male"]
     },
     {
         "nickname": "Ivy Turner",
@@ -70,7 +126,14 @@ users = [
         "birthday": "1989-06-10T13:40:00.000Z",
         "gender": "female",
         "password": "IvyT#rner",
-        "games": [10, 11, 12]
+        "games": [10, 11, 12],
+        "country": "Sweden",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Sweden"
+        },
+        "gender_filter": ["female", "other", "male"]
     },
     {
         "nickname": "Jackie Hall",
@@ -78,7 +141,14 @@ users = [
         "birthday": "1993-04-04T17:25:00.000Z",
         "gender": "female",
         "password": "Jackie#123",
-        "games": [1, 13, 14]
+        "games": [1, 13, 14],
+        "country": "Sweden",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Sweden"
+        },
+        "gender_filter": ["female", "other", "male"]
     },
     {
         "nickname": "Kevin Moore",
@@ -86,7 +156,14 @@ users = [
         "birthday": "1990-07-19T10:05:00.000Z",
         "gender": "male",
         "password": "KevMoore2023",
-        "games": [15, 16, 17]
+        "games": [15, 16, 17],
+        "country": "Spain",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Spain"
+        },
+        "gender_filter": ["female"]
     },
     {
         "nickname": "Linda Clark",
@@ -94,7 +171,14 @@ users = [
         "birthday": "1986-01-29T14:45:00.000Z",
         "gender": "female",
         "password": "LindaP@ss",
-        "games": [1, 18, 19]
+        "games": [1, 18, 19],
+        "country": "Spain",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Spain"
+        },
+        "gender_filter": ["female", "other", "male"]
     },
     {
         "nickname": "Mike Johnson",
@@ -102,7 +186,14 @@ users = [
         "birthday": "1994-09-14T12:20:00.000Z",
         "gender": "male",
         "password": "M1keP@ssword",
-        "games": [1, 2, 3]
+        "games": [1, 2, 3],
+        "country": "Spain",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Spain"
+        },
+        "gender_filter": ["female", "other"]
     },
     {
         "nickname": "Nora Garcia",
@@ -110,7 +201,14 @@ users = [
         "birthday": "1992-06-08T09:30:00.000Z",
         "gender": "female",
         "password": "Nora123!",
-        "games": [4, 5, 6]
+        "games": [4, 5, 6],
+        "country": "Spain",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Spain"
+        },
+        "gender_filter": ["female"]
     },
     {
         "nickname": "Oliver Smith",
@@ -118,7 +216,14 @@ users = [
         "birthday": "1985-11-02T14:15:00.000Z",
         "gender": "male",
         "password": "OliverPass456",
-        "games": [7, 8, 9]
+        "games": [7, 8, 9],
+        "country": "Spain",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Spain"
+        },
+        "gender_filter": ["female", "other"]
     },
     {
         "nickname": "Paula Harris",
@@ -126,7 +231,14 @@ users = [
         "birthday": "1987-03-21T11:50:00.000Z",
         "gender": "female",
         "password": "P@ulaHaRR1s",
-        "games": [10, 11, 12]
+        "games": [10, 11, 12],
+        "country": "Canada",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Canada"
+        },
+        "gender_filter": ["female"]
     },
     {
         "nickname": "Quincy Adams",
@@ -134,7 +246,14 @@ users = [
         "birthday": "1993-08-30T16:10:00.000Z",
         "gender": "male",
         "password": "Quincy#Pass",
-        "games": [13, 14, 15]
+        "games": [13, 14, 15],
+        "country": "Canada",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Canada"
+        },
+        "gender_filter": ["female"]
     },
     {
         "nickname": "Rachel Lee",
@@ -142,7 +261,14 @@ users = [
         "birthday": "1990-04-25T13:05:00.000Z",
         "gender": "female",
         "password": "R@chel21",
-        "games": [16, 17, 18]
+        "games": [16, 17, 18],
+        "country": "Germany",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Germany"
+        },
+        "gender_filter": ["female", "other"]
     },
     {
         "nickname": "Sam Taylor",
@@ -150,7 +276,14 @@ users = [
         "birthday": "1988-12-11T14:40:00.000Z",
         "gender": "male",
         "password": "S@am12345",
-        "games": [19, 10, 20]
+        "games": [19, 10, 20],
+        "country": "Germany",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Germany"
+        },
+        "gender_filter": ["female"]
     },
     {
         "nickname": "Tracy Turner",
@@ -158,7 +291,14 @@ users = [
         "birthday": "1994-01-17T09:15:00.000Z",
         "gender": "female",
         "password": "TracyT#rn3r",
-        "games": [12, 13, 14]
+        "games": [12, 13, 14],
+        "country": "Germany",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Germany"
+        },
+        "gender_filter": ["female", "other"]
     },
     {
         "nickname": "Dick Biggenson",
@@ -166,7 +306,14 @@ users = [
         "birthday": "1999-07-05T18:30:00.000Z",
         "gender": "male",
         "password": "d1ckB1g",
-        "games": [15, 16, 17]
+        "games": [15, 16, 17],
+        "country": "Japan",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Japan"
+        },
+        "gender_filter": ["female", "male"]
     },
     {
         "nickname": "Sue Smith",
@@ -174,7 +321,14 @@ users = [
         "birthday": "2000-12-15T12:20:00.000Z",
         "gender": "female",
         "password": "SueS@ecure",
-        "games": [18, 19, 1]
+        "games": [18, 19, 1],
+        "country": "Japan",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Japan"
+        },
+        "gender_filter": ["female"]
     },
     {
         "nickname": "Harry Potter",
@@ -182,7 +336,14 @@ users = [
         "birthday": "1980-07-31T16:40:00.000Z",
         "gender": "male",
         "password": "Wizard123",
-        "games": [2, 3, 4]
+        "games": [2, 3, 4],
+        "country": "Ukraine",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Ukraine"
+        },
+        "gender_filter": ["female"]
     },
     {
         "nickname": "Mickey Mouse",
@@ -190,7 +351,14 @@ users = [
         "birthday": "1928-11-18T11:00:00.000Z",
         "gender": "male",
         "password": "DisneyFan1",
-        "games": [5, 6, 7]
+        "games": [5, 6, 7],
+        "country": "Singapore",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Singapore"
+        },
+        "gender_filter": ["female"]
     },
     {
         "nickname": "Elvis Presley",
@@ -198,7 +366,14 @@ users = [
         "birthday": "1935-01-08T09:50:00.000Z",
         "gender": "male",
         "password": "RockKing123",
-        "games": [8, 9, 10]
+        "games": [8, 9, 10],
+        "country": "Ukraine",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Ukraine"
+        },
+        "gender_filter": ["female"]
     },
     {
         "nickname": "Wonder Woman",
@@ -206,7 +381,14 @@ users = [
         "birthday": "1941-10-25T15:15:00.000Z",
         "gender": "female",
         "password": "Amazon123",
-        "games": [11, 12, 13]
+        "games": [11, 12, 13],
+        "country": "Singapore",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Singapore"
+        },
+        "gender_filter": ["female"]
     },
     {
         "nickname": "Darth Vader",
@@ -214,7 +396,14 @@ users = [
         "birthday": "1977-05-25T14:30:00.000Z",
         "gender": "male",
         "password": "DarkSideRulez",
-        "games": [14, 15, 16]
+        "games": [14, 15, 16],
+        "country": "Ukraine",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Ukraine"
+        },
+        "gender_filter": ["female"]
     },
     {
         "nickname": "Spider-Man",
@@ -222,7 +411,14 @@ users = [
         "birthday": "1962-08-10T17:20:00.000Z",
         "gender": "male",
         "password": "WebSlinger12",
-        "games": [17, 18, 19]
+        "games": [17, 18, 19],
+        "country": "Singapore",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Singapore"
+        },
+        "gender_filter": ["female"]
     },
     {
         "nickname": "Black Widow",
@@ -230,7 +426,14 @@ users = [
         "birthday": "1964-04-01T10:10:00.000Z",
         "gender": "female",
         "password": "SecretAgent1",
-        "games": [10, 11, 12]
+        "games": [10, 11, 12],
+        "country": "Ukraine",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Ukraine"
+        },
+        "gender_filter": ["female"]
     },
     {
         "nickname": "Sherlock Holmes",
@@ -238,15 +441,29 @@ users = [
         "birthday": "1854-01-06T09:00:00.000Z",
         "gender": "male",
         "password": "Elementary1",
-        "games": [13, 14, 15]
+        "games": [13, 14, 15],
+        "country": "Singapore",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Singapore"
+        },
+        "gender_filter": ["female"]
     },
     {
         "nickname": "string",
         "email": "user@example.com",
-        "birthday": "2023-10-08T05:05:59.584Z",
+        "birthday": "2003-10-08T05:05:59.584Z",
         "gender": "female",
         "password": "string",
-        "games": [1, 5, 10, 15]
+        "games": [1, 5, 10, 15],
+        "country": "Japan",
+        "base_filters": {
+            "min_age_preference": 18,
+            "max_age_preference": 30,
+            "country_preference": "Japan"
+        },
+        "gender_filter": ["female"]
     }
 ]
 # endregion

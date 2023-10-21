@@ -1,6 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel
-from typing import Optional, List
+from typing import List, Optional
 from .game_genre import GameGenreForInGameList
 
 
@@ -10,10 +10,8 @@ class GameBase(BaseModel):
 
     Fields:
     - **name**: Game name
-    - **description**: Game description
     """
     name: str
-    description: Optional[str] = None
 
 
 class GameCreate(GameBase):
@@ -22,8 +20,10 @@ class GameCreate(GameBase):
 
     Fields:
     - **genre_list**: List of genre IDs
+    - **description**: Game description
     """
     genre_list: List[int]  # List of genre IDs
+    description: Optional[str] = None
 
 
 class GameUpdate(GameBase):

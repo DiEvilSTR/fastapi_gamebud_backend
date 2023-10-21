@@ -62,8 +62,7 @@ def add_game_genre(db: Session, game_genre: GameGenreCreate):
     Parameters:
     - **game_genre**: Game genre data to be added
     """
-    db_game_genre = GameGenre(name=game_genre.name,
-                              description=game_genre.description)
+    db_game_genre = GameGenre(**game_genre.model_dump(exclude_unset=True))
     db.add(db_game_genre)
     db.commit()
     db.refresh(db_game_genre)

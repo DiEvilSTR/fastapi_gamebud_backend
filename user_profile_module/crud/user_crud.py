@@ -19,8 +19,6 @@ def get_user_by_uuid(db: Session, uuid: str):
     if db_user is None:
         return None
 
-    # Calculate user's age
-    db_user.age = db_user.count_age
     return db_user
 
 
@@ -36,8 +34,6 @@ def get_user_by_email(db: Session, email: str):
     if db_user is None:
         return None
 
-    # Calculate user's age
-    db_user.age = db_user.count_age
     return db_user
 
 
@@ -65,14 +61,13 @@ def create_user(db: Session, user: UserCreate):
                    gender=user.gender,
                    hashed_password=hashed_password,
                    nickname=user.nickname,
-                   uuid=new_user_uuid
+                   uuid=new_user_uuid,
+                   country=user.country
                    )
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
 
-    # Calculate user's age
-    db_user.age = db_user.count_age
     return db_user
 
 
@@ -98,8 +93,6 @@ def update_user(db: Session, user: UserUpdate, uuid: str):
     db.commit()
     db.refresh(db_user)
 
-    # Calculate user's age
-    db_user.age = db_user.count_age
     return db_user
 
 

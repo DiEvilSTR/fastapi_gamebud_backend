@@ -8,11 +8,14 @@ from core.config import settings
 from core.db.db_setup import engine
 
 # Models
-from bud_finder_module.models import bud_like, bud_match
+from bud_finder_module.models import bud_like, bud_match, bud_base_filter, bud_gender_filter
 from user_profile_module.models import user, user_game_association
 from game_base_module.models import game, game_genre, game_genre_association
 
+
 # Create all tables
+bud_base_filter.Base.metadata.create_all(bind=engine)
+bud_gender_filter.Base.metadata.create_all(bind=engine)
 bud_like.Base.metadata.create_all(bind=engine)
 bud_match.Base.metadata.create_all(bind=engine)
 game.Base.metadata.create_all(bind=engine)
