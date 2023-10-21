@@ -5,10 +5,28 @@ from .jwt_handler import decode_jwt
 
 
 class JWTBearer(HTTPBearer):
+    """
+    JWTBearer class
+
+    This class is used to verify the JWT token sent by the user.
+    """
+
     def __init__(self, auto_error: bool = True):
+        """
+        Constructor method
+
+        Parameters:
+        - **auto_error**: If True, will raise HTTPException if the token is invalid or expired.
+        """
         super(JWTBearer, self).__init__(auto_error=auto_error)
 
     async def __call__(self, request: Request):
+        """
+        Call method
+
+        Parameters:
+        - **request**: Request object with the token.
+        """
         credentials: HTTPAuthorizationCredentials = await super(JWTBearer, self).__call__(request)
         if credentials:
             if not credentials.scheme == "Bearer":
@@ -18,7 +36,7 @@ class JWTBearer(HTTPBearer):
             if not self.verify_jwt(credentials.credentials):
                 raise HTTPException(
                     status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token or expired token.")
-            return self.get_user_email(credentials.credentials)
+            return self.get_user_uuid(credentials.credentials)
         else:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authorization code."
@@ -37,12 +55,12 @@ class JWTBearer(HTTPBearer):
         return is_token_valid
 
     @staticmethod
-    def get_user_email(jwtoken: str) -> str:
+    def get_user_uuid(jwtoken: str) -> str:
         try:
-            email = decode_jwt(jwtoken)["email"]
+            uuid = decode_jwt(jwtoken)["uuid"]
         except:
-            email = None
-        return email
+            uuid = None
+        return uuid
 
 
 jwt_scheme = JWTBearer()

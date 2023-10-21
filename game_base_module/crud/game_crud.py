@@ -1,4 +1,3 @@
-from decouple import config
 from sqlalchemy.orm import Session
 
 from game_base_module.models.game import Game
@@ -58,8 +57,8 @@ def add_game(db: Session, game: GameCreate):
     Parameters:
     - **game**: Game data to be added
     """
-    db_game = Game(name=game.name,
-                   description=game.description)
+    db_game = Game(
+        **game.model_dump(exclude_unset=True, exclude={"genre_list"}))
     db.add(db_game)
     db.commit()
     db.refresh(db_game)

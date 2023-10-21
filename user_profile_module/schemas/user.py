@@ -3,6 +3,7 @@ from pydantic import BaseModel, EmailStr
 from typing import Optional, List
 
 from game_base_module.schemas.game import GameForUserProfileData
+from core.constants import GenderEnum, CountryEnum
 
 
 class UserBase(BaseModel):
@@ -22,11 +23,15 @@ class UserCreate(UserBase):
     Fields:
     - **email**: User email
     - **birthday**: User birthday
+    - **gender**: User gender
     - **password**: User password
+    - **country**: User country
     """
     email: EmailStr
     birthday: datetime
+    gender: GenderEnum
     password: str
+    country: CountryEnum
 
 
 class UserUpdate(UserBase):
@@ -38,11 +43,15 @@ class UserUpdate(UserBase):
     - **birthday**: User birthday
     - **bio**: User bio
     - **games**: List of games associated with this user
+    - **gender**: User gender
+    - **country**: User country
     """
     nickname: Optional[str] = None
     birthday: Optional[datetime] = None
     bio: Optional[str] = None
     games: Optional[List[int]] = None
+    gender: Optional[GenderEnum] = None
+    country: Optional[CountryEnum] = None
 
 
 class UserDeactivate(UserBase):
@@ -63,14 +72,18 @@ class User(UserBase):
     - **uuid**: User uuid
     - **nickname**: User nickname
     - **age**: User age
+    - **gender**: User gender
     - **bio**: User bio
     - **games**: List of games associated with this user
+    - **country**: User country
     """
     uuid: str
     nickname: str
     age: int
+    gender: GenderEnum
     bio: Optional[str] = None
     games: Optional[List[GameForUserProfileData]] = []
+    country: CountryEnum
     created_at: datetime
     updated_at: datetime
 
@@ -86,10 +99,39 @@ class UserInDBForUpdate(UserBase):
     - **birthday**: User birthday
     - **bio**: User bio
     - **games**: List of games associated with this user
+    - **gender**: User gender
+    - **country**: User country
     """
     birthday: datetime
     bio: Optional[str] = None
     games: Optional[List[GameForUserProfileData]] = []
+    gender: GenderEnum
+    country: CountryEnum
+
+    class Config:
+        from_attributes = True
+
+
+class UserAsBud(UserBase):
+    """
+    Read class for User
+
+    Fields:
+    - **uuid**: User uuid
+    - **nickname**: User nickname
+    - **age**: User age
+    - **gender**: User gender
+    - **bio**: User bio
+    - **games**: List of games associated with this user
+    - **country**: User country
+    """
+    uuid: str
+    nickname: str
+    age: int
+    bio: Optional[str] = None
+    gender: GenderEnum
+    games: Optional[List[GameForUserProfileData]] = []
+    country: CountryEnum
 
     class Config:
         from_attributes = True

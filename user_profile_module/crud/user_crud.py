@@ -1,6 +1,5 @@
-from decouple import config
-from datetime import datetime
 from sqlalchemy.orm import Session
+import uuid as uuid_pkg
 
 from core.security import get_password_hash, verify_password
 from user_profile_module.models.user import User
@@ -15,7 +14,12 @@ def get_user_by_uuid(db: Session, uuid: str):
     Parameters:
     - **uuid**: User uuid
     """
-    return db.query(User).filter(User.uuid == uuid).first()
+    db_user = db.query(User).filter(User.uuid == uuid).first()
+
+    if db_user is None:
+        return None
+
+    return db_user
 
 
 def get_user_by_email(db: Session, email: str):
@@ -30,19 +34,17 @@ def get_user_by_email(db: Session, email: str):
     if db_user is None:
         return None
 
-    # Calculate user's age
-    db_user.age = db_user.count_age
     return db_user
 
 
-def get_user_by_email_for_update(db: Session, email: str):
+def get_user_by_uuid_for_update(db: Session, uuid: str):
     """
     Get user by email for update
 
     Parameters:
-    - **email**: User email
+    - **uuid**: User uuid
     """
-    return db.query(User).filter(User.email == email).first()
+    return db.query(User).filter(User.uuid == uuid).first()
 
 
 def create_user(db: Session, user: UserCreate):
@@ -52,29 +54,32 @@ def create_user(db: Session, user: UserCreate):
     Parameters:
     - **user**: User data to be added
     """
+    new_user_uuid = str(uuid_pkg.uuid4())
     hashed_password = get_password_hash(user.password)
-    db_user = User(email=user.email,
+    db_user = User(birthday=user.birthday,
+                   email=user.email,
+                   gender=user.gender,
                    hashed_password=hashed_password,
-                   birthday=user.birthday,
-                   nickname=user.nickname)
+                   nickname=user.nickname,
+                   uuid=new_user_uuid,
+                   country=user.country
+                   )
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
 
-    # Calculate user's age
-    db_user.age = db_user.count_age
     return db_user
 
 
-def update_user(db: Session, user: UserUpdate, email: str):
+def update_user(db: Session, user: UserUpdate, uuid: str):
     """
     Update user in the database
 
     Parameters:
     - **user**: User data to be updated
-    - **email**: User email
+    - **uuid**: User uuid
     """
-    db_user = get_user_by_email_for_update(db=db, email=email)
+    db_user = get_user_by_uuid_for_update(db=db, uuid=uuid)
     updated_user = user.model_dump(exclude_unset=True)
 
     # Get the list of model attributes
@@ -88,19 +93,17 @@ def update_user(db: Session, user: UserUpdate, email: str):
     db.commit()
     db.refresh(db_user)
 
-    # Calculate user's age
-    db_user.age = db_user.count_age
     return db_user
 
 
-def delete_user(db: Session, email: str):
+def delete_user(db: Session, uuid: str):
     """
     Delete user from the database
 
     Parameters:
-    - **email**: User email
+    - **uuid**: User uuid
     """
-    db_user = get_user_by_email(db=db, email=email)
+    db_user = get_user_by_uuid(db=db, uuid=uuid)
     db.delete(db_user)
     db.commit()
     return db_user
@@ -115,6 +118,6 @@ def authenticate(db: Session, user: UserLogin):
     """
     db_user = get_user_by_email(db=db, email=user.email)
     if db_user and verify_password(user.password, db_user.hashed_password):
-        return True
+        return db_user
     else:
         return None

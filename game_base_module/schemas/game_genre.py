@@ -18,6 +18,10 @@ class GameGenreBase(BaseModel):
 class GameGenreCreate(GameGenreBase):
     """
     Create class for GameGenre
+
+    Fields:
+    - **name**: Game genre name
+    - **description**: Game genre description
     """
     pass
 

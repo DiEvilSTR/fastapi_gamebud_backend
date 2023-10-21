@@ -6,9 +6,9 @@ from core.config import settings
 
 
 # Function used for signing the JWT string
-def sign_jwt(email: str):
+def sign_jwt(uuid: str):
     payload = {
-        "email": email,
+        "uuid": uuid,
         "expires": time.time() + settings.ACCESS_TOKEN_EXPIRE_MINUTES
     }
     token = jwt.encode(payload, settings.SECRET_KEY,
@@ -29,9 +29,9 @@ def decode_jwt(token: str):
         return None
 
 
-# Function used for extracting email from token
+# Function used for extracting uuid from token
 def extract_username(token: str):
     try:
-        return decode_jwt(token)["email"] if decode_jwt(token) else None
+        return decode_jwt(token)["uuid"] if decode_jwt(token) else None
     except:
         return None
