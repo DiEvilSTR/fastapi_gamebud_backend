@@ -9,6 +9,7 @@ from core.db.db_setup import engine
 
 # Models
 from bud_finder_module.models import bud_like, bud_match, bud_base_filter, bud_gender_filter
+from chat_module.models import chat_message
 from user_profile_module.models import user, user_game_association
 from game_base_module.models import game, game_genre, game_genre_association
 
@@ -18,6 +19,7 @@ bud_base_filter.Base.metadata.create_all(bind=engine)
 bud_gender_filter.Base.metadata.create_all(bind=engine)
 bud_like.Base.metadata.create_all(bind=engine)
 bud_match.Base.metadata.create_all(bind=engine)
+chat_message.Base.metadata.create_all(bind=engine)
 game.Base.metadata.create_all(bind=engine)
 game_genre.Base.metadata.create_all(bind=engine)
 game_genre_association.Base.metadata.create_all(bind=engine)

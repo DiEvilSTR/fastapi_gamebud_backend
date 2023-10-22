@@ -135,3 +135,18 @@ class UserAsBud(UserBase):
 
     class Config:
         from_attributes = True
+
+
+class UserAsBudForMatchList(UserBase):
+    """
+    Read class for User
+    
+    Fields:
+    - **uuid**: User uuid
+    - **nickname**: User nickname
+    """
+    uuid: str
+    nickname: str
+    
+    class Config:
+        from_attributes = True

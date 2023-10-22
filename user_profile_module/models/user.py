@@ -32,7 +32,7 @@ class User(Timestamp, Base):
     Relationships:
     - **games**: User games
     - **base_filters**: User base filters (one-to-one)
-    - **gender_filter**: User gender filters (one-to-many)
+    - **matches**: User matches
     """
     __tablename__ = "users"
 
@@ -64,3 +64,7 @@ class User(Timestamp, Base):
     # Define the relationship to BudBaseFilter model
     filters = relationship(
         "BudBaseFilter", back_populates="owner", uselist=False, cascade="all, delete-orphan")
+
+    # Define the relationship to Match model
+    matches = relationship(
+        "BudMatch", secondary="bud_match_associations", back_populates="buds")

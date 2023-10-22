@@ -11,6 +11,10 @@ from user_profile_module.crud import user_game_association_crud
 from user_profile_module.schemas.auth import Token, UserLogin
 from user_profile_module.schemas.user import User, UserCreate, UserUpdate, UserInDBForUpdate
 
+# Imports from other modules
+from bud_finder_module.crud import bud_like_crud, bud_match_crud, bud_match_association_crud
+
+
 router = APIRouter()
 
 
@@ -133,12 +137,21 @@ def delete_current_user(response: Response, db: Session = Depends(db_setup.get_d
             status_code=status.HTTP_404_NOT_FOUND, detail="User with this uuid does not exists."
         )
 
-    # Delete user
-    user_crud.delete_user(db=db, uuid=current_user_id)
-
     # Delete user-game associations
     user_game_association_crud.delete_user_game_association(
         db=db, user_id=db_user.uuid)
+
+    # Delete bud likes
+    bud_like_crud.delete_likes_for_user(db=db, user_id=current_user_id)
+
+    # Delete bud matches
+    db_matched_ids = bud_match_association_crud.get_bud_matches_ids(db=db, user_id=current_user_id)
+    bud_match_association_crud.delete_bud_match_associations(db=db, matches_ids_list=db_matched_ids)
+    bud_match_crud.delete_matches_from_matches_ids_list(
+        db=db, matches_ids_list=db_matched_ids)
+
+    # Delete user
+    user_crud.delete_user(db=db, uuid=current_user_id)
 
     # Delete cookie
     response.delete_cookie(key="Authorization")

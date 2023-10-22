@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, Integer
 from sqlalchemy.orm import relationship
 
 from core.db.db_setup import Base
@@ -11,11 +11,17 @@ class BudMatch(Timestamp, Base):
 
     Fields:
     - **id**: Match id
-    - **user_one_id**: First user id
-    - **user_two_id**: Second user id
+    
+    Relationships:
+    - **buds**: Users who have this match
+    - **messages**: Messages in this match
     """
     __tablename__ = "bud_matches"
 
     id = Column(Integer, primary_key=True, index=True)
-    user_one_id = Column(String, ForeignKey("users.uuid"))
-    user_two_id = Column(String, ForeignKey("users.uuid"))
+
+    # Define the relationship to the User model
+    buds = relationship("User", secondary="bud_match_associations", back_populates="matches")
+
+    # Define the relationship to the Message model
+    chat_messages = relationship("ChatMessage", back_populates="match", cascade="all, delete-orphan")
