@@ -6,6 +6,8 @@ from starlette.responses import RedirectResponse
 from core.api_v1_router import api_router
 from core.config import settings
 from core.db.db_setup import engine
+from core.ws_router import ws_router
+
 
 # Models
 from bud_finder_module.models import bud_like, bud_match, bud_base_filter, bud_gender_filter
@@ -46,3 +48,4 @@ async def redirect_to_docs():
     return RedirectResponse(url="/docs")
 
 app.include_router(api_router, prefix=settings.API_V1_STR)
+app.include_router(ws_router, prefix=settings.WS_V1_STR)

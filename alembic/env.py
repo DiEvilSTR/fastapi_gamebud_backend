@@ -10,6 +10,7 @@ from core.db.db_setup import Base
 
 # Import all models here for 'autogenerate' support
 from bud_finder_module import BudLike, BudMatch, BudBaseFilter, BudGenderFilter
+from chat_module import ChatMessage
 from user_profile_module import User, UserGameAssociation
 from game_base_module import Game, GameGenre, GameGenreAssociation
 

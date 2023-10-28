@@ -10,19 +10,13 @@ class ChatMessage(Timestamp, Base):
 
     Fields:
     - **id**: Message id
-    - **content**: Message content
-    - **sender_id**: Sender id
     - **match_id**: Match id
-
-    Relationships:
-    - **match**: Match where the message was sent
+    - **sender_id**: Sender id
+    - **content**: Message content
     """
     __tablename__ = "chat_messages"
 
     id = Column(Integer, primary_key=True, index=True)
-    content = Column(String, nullable=False)
-    sender_id = Column(String, ForeignKey("users.uuid"))
     match_id = Column(Integer, ForeignKey("bud_matches.id"))
-
-    # Define the relationship to the BudMatch model
-    match = relationship("BudMatch", back_populates="chat_messages", uselist=False)
+    sender_id = Column(String, ForeignKey("users.uuid"))
+    content = Column(String, nullable=False)
