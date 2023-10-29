@@ -43,9 +43,11 @@ app = FastAPI(
 @app.get("/")
 async def redirect_to_docs():
     """
-    Redirect to docs
+    Redirect to docs page
     """
     return RedirectResponse(url="/docs")
 
-app.include_router(api_router, prefix=settings.API_V1_STR)
-app.include_router(ws_router, prefix=settings.WS_V1_STR)
+
+# Include routers
+app.include_router(api_router, prefix=settings.API_V1_STR) # Include API router
+app.include_router(ws_router, prefix=settings.WS_V1_STR) # Include WebSocket router

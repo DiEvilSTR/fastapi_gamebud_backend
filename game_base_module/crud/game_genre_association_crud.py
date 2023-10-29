@@ -5,7 +5,7 @@ from typing import List
 from game_base_module.models.game_genre_association import GameGenreAssociation
 
 
-def get_association_by_game_id(db: Session, game_id: int):
+def get_association_by_game_id(db: Session, game_id: int) -> GameGenreAssociation:
     """
     Get game-genre association by game id
 
@@ -15,7 +15,7 @@ def get_association_by_game_id(db: Session, game_id: int):
     return db.query(GameGenreAssociation).filter(GameGenreAssociation.game_id == game_id).first()
 
 
-def count_associated_games_by_genre_id(db: Session, genre_id: int):
+def count_associated_games_by_genre_id(db: Session, genre_id: int) -> int:
     """
     Count associated games by genre id
 
@@ -25,7 +25,7 @@ def count_associated_games_by_genre_id(db: Session, genre_id: int):
     return db.query(GameGenreAssociation).filter(GameGenreAssociation.genre_id == genre_id).count()
 
 
-def get_certain_association(db: Session, game_id: int, genre_id: int):
+def get_certain_association(db: Session, game_id: int, genre_id: int) -> GameGenreAssociation:
     """
     Get certain game-genre association
 
@@ -35,6 +35,21 @@ def get_certain_association(db: Session, game_id: int, genre_id: int):
     """
     return db.query(GameGenreAssociation).filter(GameGenreAssociation.game_id == game_id,
                                                  GameGenreAssociation.genre_id == genre_id).first()
+
+
+def get_list_of_game_ids_by_genre_id(db: Session, genre_id: int, offset: int = 0, limit: int = 50) -> List[int]:
+    """
+    Get list of game ids by genre id
+
+    Parameters:
+    - **db**: Database session
+    - **genre_id**: Genre id
+    - **offset**: Skip the first N games (default: 0)
+    - **limit**: Limit the number of games returned (default: 50)
+    """
+    db_game_genre_associations: List[GameGenreAssociation] = db.query(GameGenreAssociation).filter(
+        GameGenreAssociation.genre_id == genre_id).offset(offset).limit(limit).all()
+    return [association.game_id for association in db_game_genre_associations]
 
 
 def add_association(db: Session, game_id: int, association_list: List[int]):

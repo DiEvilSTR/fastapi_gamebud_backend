@@ -15,8 +15,8 @@ router = APIRouter()
 # Game genre endpoints
 
 
-@router.post("/game_genre", response_model=GameGenre, status_code=status.HTTP_201_CREATED)
-def add_new_game_genre(game_genre: GameGenreCreate, db: Session = Depends(db_setup.get_db)):
+@router.post("/game_genre", response_model=GameGenre, status_code=status.HTTP_201_CREATED, dependencies=[Depends(jwt_scheme)])
+def add_new_game_genre(game_genre: GameGenreCreate, db: Session = Depends(db_setup.get_db), current_user_id: str = Depends(jwt_scheme)):
     """
     Add a new game genre to the database
 
@@ -35,7 +35,7 @@ def add_new_game_genre(game_genre: GameGenreCreate, db: Session = Depends(db_set
     return db_game_genre
 
 
-@router.get("/game_genre", response_model=List[GameGenreForList])
+@router.get("/game_genre", response_model=List[GameGenreForList], dependencies=[Depends(jwt_scheme)])
 def get_game_genre_list(offset: int = 0, limit: int = 100, db: Session = Depends(db_setup.get_db)):
     """
     Get game genre list
@@ -49,7 +49,7 @@ def get_game_genre_list(offset: int = 0, limit: int = 100, db: Session = Depends
     return db_game_genre_list
 
 
-@router.get("/game_genre/{id}", response_model=GameGenre)
+@router.get("/game_genre/{id}", response_model=GameGenre, dependencies=[Depends(jwt_scheme)])
 def get_game_genre_by_id(id: int, db: Session = Depends(db_setup.get_db)):
     """
     Get game genre by id
@@ -65,8 +65,8 @@ def get_game_genre_by_id(id: int, db: Session = Depends(db_setup.get_db)):
     return db_game_genre
 
 
-@router.patch("/game_genre/{id}", response_model=GameGenre)
-def update_game_genre_by_id(id: int, game_genre: GameGenreUpdate, db: Session = Depends(db_setup.get_db)):
+@router.patch("/game_genre/{id}", response_model=GameGenre, dependencies=[Depends(jwt_scheme)])
+def update_game_genre_by_id(id: int, game_genre: GameGenreUpdate, db: Session = Depends(db_setup.get_db), current_user_id: str = Depends(jwt_scheme)):
     """
     Update game genre by id
 
@@ -84,8 +84,8 @@ def update_game_genre_by_id(id: int, game_genre: GameGenreUpdate, db: Session = 
     return db_game_genre
 
 
-@router.delete("/game_genre/{id}")
-def delete_game_genre_by_id(id: int, db: Session = Depends(db_setup.get_db)):
+@router.delete("/game_genre/{id}", dependencies=[Depends(jwt_scheme)])
+def delete_game_genre_by_id(id: int, db: Session = Depends(db_setup.get_db), current_user_id: str = Depends(jwt_scheme)):
     """
     Delete game genre by id
 
@@ -110,8 +110,8 @@ def delete_game_genre_by_id(id: int, db: Session = Depends(db_setup.get_db)):
 # Games endpoints
 
 
-@router.post("/game", response_model=Game, status_code=status.HTTP_201_CREATED)
-def add_new_game(game: GameCreate, db: Session = Depends(db_setup.get_db)):
+@router.post("/game", response_model=Game, status_code=status.HTTP_201_CREATED, dependencies=[Depends(jwt_scheme)])
+def add_new_game(game: GameCreate, db: Session = Depends(db_setup.get_db), current_user_id: str = Depends(jwt_scheme)):
     """
     Add a new game to the database
 
@@ -133,7 +133,7 @@ def add_new_game(game: GameCreate, db: Session = Depends(db_setup.get_db)):
     return db_game
 
 
-@router.get("/game", response_model=List[Game])
+@router.get("/game", response_model=List[Game], dependencies=[Depends(jwt_scheme)])
 def get_game_list(offset: int = 0, limit: int = 100, search: str = None, db: Session = Depends(db_setup.get_db)):
     """
     Get game list
@@ -148,7 +148,27 @@ def get_game_list(offset: int = 0, limit: int = 100, search: str = None, db: Ses
     return db_game_list
 
 
-@router.get("/game/{id}", response_model=Game)
+@router.get("/game/genre/{genre_id}", response_model=List[Game], dependencies=[Depends(jwt_scheme)])
+def get_game_list_by_genre(genre_id: int, offset: int = 0, limit: int = 50, db: Session = Depends(db_setup.get_db)):
+    """
+    Get game list by genre
+
+    Parameters:
+    - **genre_id**: Genre id
+    - **offset**: Skip the first N games (default: 0)
+    - **limit**: Limit the number of games returned (default: 50)
+    """
+    # Get list of game ids by genre id
+    db_game_id_list = game_genre_association_crud.get_list_of_game_ids_by_genre_id(
+        db=db, genre_id=genre_id, offset=offset, limit=limit)
+    
+    # Get list of games by game ids
+    db_game_list = game_crud.get_game_by_game_id_list(
+        db=db, game_id_list=db_game_id_list)
+    return db_game_list
+
+
+@router.get("/game/{id}", response_model=Game, dependencies=[Depends(jwt_scheme)])
 def get_game_by_id(id: int, db: Session = Depends(db_setup.get_db)):
     """
     Get game by id
@@ -164,8 +184,8 @@ def get_game_by_id(id: int, db: Session = Depends(db_setup.get_db)):
     return db_game
 
 
-@router.patch("/game/{id}", response_model=Game)
-def update_game_by_id(id: int, game: GameUpdate, db: Session = Depends(db_setup.get_db)):
+@router.patch("/game/{id}", response_model=Game, dependencies=[Depends(jwt_scheme)])
+def update_game_by_id(id: int, game: GameUpdate, db: Session = Depends(db_setup.get_db), current_user_id: str = Depends(jwt_scheme)):
     """
     Update game by id
 
@@ -189,8 +209,8 @@ def update_game_by_id(id: int, game: GameUpdate, db: Session = Depends(db_setup.
     return db_game
 
 
-@router.delete("/game/{id}")
-def delete_game_by_id(id: int, db: Session = Depends(db_setup.get_db)):
+@router.delete("/game/{id}", dependencies=[Depends(jwt_scheme)])
+def delete_game_by_id(id: int, db: Session = Depends(db_setup.get_db), current_user_id: str = Depends(jwt_scheme)):
     """
     Delete game by id
 

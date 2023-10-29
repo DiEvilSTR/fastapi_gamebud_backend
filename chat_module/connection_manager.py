@@ -1,23 +1,61 @@
 from fastapi import WebSocket
+from typing import Dict
+
+from chat_module.schemas.chat_message import ChatMessageCreate
 
 
 class ConnectionManager:
+    """
+    Connection manager class
+    
+    This class is responsible for managing the active connections
+    
+    Attributes:
+    - **active_connections**: Dictionary of active connections
+    
+    Methods:
+    - **connect**: Connects a websocket to the manager
+    - **disconnect**: Disconnects a websocket from the manager
+    - **send_message**: Sends a message to a websocket
+    """
     def __init__(self):
-        self.active_connections: list[WebSocket] = []
+        self.active_connections: Dict[str, WebSocket] = {}
 
-    async def connect(self, websocket: WebSocket):
+
+    async def connect(self, websocket: WebSocket, user_id: str):
+        """
+        Connects a websocket to the manager
+        
+        Parameters:
+        - **websocket**: Websocket to connect
+        - **user_id**: User id to connect
+        """
         await websocket.accept()
-        self.active_connections.append(websocket)
-
-    def disconnect(self, websocket: WebSocket):
-        self.active_connections.remove(websocket)
-
-    async def send_personal_message(self, message: str, websocket: WebSocket):
-        await websocket.send_text(message)
-
-    async def broadcast(self, message: str):
-        for connection in self.active_connections:
-            await connection.send_text(message)
+        self.active_connections[user_id] = websocket
 
 
-manager = ConnectionManager()
+    def disconnect(self, user_id: str):
+        """
+        Disconnects a websocket from the manager
+        
+        Parameters:
+        - **user_id**: User id to disconnect
+        """
+        if user_id in self.active_connections:
+            del self.active_connections[user_id]
+
+
+    async def send_message(self, message_data: ChatMessageCreate, receiver_id: str):
+        """
+        Sends a message to a websocket
+        
+        Parameters:
+        - **message**: Message to send
+        - **user_id**: User id to send
+        """
+        websocket = self.active_connections.get(receiver_id, None)
+        if websocket:
+            await websocket.send_text(message_data)
+
+
+connection_manager = ConnectionManager()
