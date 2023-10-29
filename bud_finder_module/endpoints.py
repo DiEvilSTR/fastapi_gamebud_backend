@@ -5,10 +5,10 @@ from typing import List
 from core.db import db_setup
 from core.jwt_authentication.jwt_bearer import jwt_scheme
 
-from bud_finder_module.crud import bud_list_crud, bud_like_crud, bud_match_crud, bud_base_filter_crud, bud_gender_filter_crud
+from bud_finder_module.crud import bud_base_filter_crud, bud_gender_filter_crud, bud_list_crud, bud_like_crud, bud_match_crud, bud_match_association_crud 
 from bud_finder_module.schemas.bud_filter import BudFilter, BudFilterCreate, BudFilterUpdate
-from bud_finder_module.schemas.bud_like import BudLike, BudLikeCreate, BudLikeUpdate
-from bud_finder_module.schemas.bud_match import BudMatch, BudMatchCreate, BudMatchUpdate
+from bud_finder_module.schemas.bud_like import BudLikeCreate
+from bud_finder_module.schemas.bud_match import BudMatch
 
 # Import schemas from other modules
 from user_profile_module.schemas.user import UserAsBud
@@ -55,9 +55,17 @@ def swipe_bud(swipe: BudLikeCreate, db: Session = Depends(db_setup.get_db), curr
 
         # Check if like is mutual and create match if it is
         if bud_like_crud.check_like_mutuality(db=db, swiper_id=current_user_id, swiped_id=swipe.swiped_id):
+            
             # Create match record
-            bud_match_crud.create_match(
-                db=db, id_one=current_user_id, id_two=swipe.swiped_id)
+            db_match_id = bud_match_crud.create_match(db=db)
+            
+            # Create bud match associations
+            bud_match_association_crud.create_bud_match_associations(
+                db=db,
+                user_id_1=current_user_id,
+                user_id_2=swipe.swiped_id,
+                match_id=db_match_id
+            )
 
             # Delete like records
             bud_like_crud.delete_likes_for_matched_users(
@@ -170,7 +178,14 @@ def get_matches(db: Session = Depends(db_setup.get_db), current_user_id: str = D
     Parameters:
     - **user_id**: User id
     """
-    return bud_match_crud.fetch_matches(db=db, user_id=current_user_id)
+    # Get list of matches ids
+    dm_matches_ids = bud_match_association_crud.get_bud_matches_ids(
+        db=db, user_id=current_user_id)
+    
+    # Get list of matches
+    db_matches = bud_match_crud.fetch_matches(db=db, matches_ids_list=dm_matches_ids)
+    
+    return db_matches
 
 
 # Delete the match
@@ -180,14 +195,14 @@ def delete_match(match_id: int, db: Session = Depends(db_setup.get_db), current_
     Delete match
 
     Parameters:
-    - **match**: Match data
+    - **match_id**: Match id
     - **user_id**: User id
     """
     # Get match data
     db_match = bud_match_crud.get_match_by_match_id(db=db, match_id=match_id)
 
     # Check if user has permission to delete match
-    if not None and db_match.user_one_id != current_user_id and db_match.user_two_id != current_user_id:
+    if not None and db_match.buds[1]["uuid"] != current_user_id and db_match.buds[0]["uuid"] != current_user_id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="You do not have permission to delete this match."
         )
@@ -199,6 +214,6 @@ def delete_match(match_id: int, db: Session = Depends(db_setup.get_db), current_
         )
 
     # Delete match
-    bud_match_crud.delete_match_by_match_id(db=db, match_id=match_id)
+    bud_match_crud.delete_matches_from_matches_ids_list(db=db, matches_ids_list=[match_id])
 
     return Response(status_code=status.HTTP_200_OK, content="Match deleted")

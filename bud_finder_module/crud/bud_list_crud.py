@@ -85,13 +85,13 @@ def fetch_potential_matches(db: Session, user_id: str):
                 WHERE bl.swiper_id = :user_id
             )
             AND u.uuid NOT IN (
-                SELECT DISTINCT bm.user_one_id
-                FROM bud_matches bm
-                WHERE bm.user_two_id = :user_id
-                UNION
-                SELECT DISTINCT bm.user_two_id
-                FROM bud_matches bm
-                WHERE bm.user_one_id = :user_id
+                SELECT DISTINCT user_id
+                FROM bud_match_associations
+                WHERE match_id IN (
+                    SELECT DISTINCT match_id
+                    FROM bud_match_associations
+                    WHERE user_id = :user_id
+                ) AND user_id <> :user_id
             )
             AND EXISTS (
                 SELECT 1
@@ -205,13 +205,13 @@ def fetch_list_of_likes_to_user(db: Session, user_id: str):
                 WHERE bl.swiped_id = :user_id
             )
             AND u.uuid NOT IN (
-                SELECT DISTINCT bm.user_one_id
-                FROM bud_matches bm
-                WHERE bm.user_two_id = :user_id
-                UNION
-                SELECT DISTINCT bm.user_two_id
-                FROM bud_matches bm
-                WHERE bm.user_one_id = :user_id
+                SELECT DISTINCT user_id
+                FROM bud_match_associations
+                WHERE match_id IN (
+                    SELECT DISTINCT match_id
+                    FROM bud_match_associations
+                    WHERE user_id = :user_id
+                ) AND user_id <> :user_id
             )
             AND EXISTS (
                 SELECT 1

@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 from bud_finder_module.crud import bud_base_filter_crud, bud_gender_filter_crud
-from bud_finder_module.schemas.bud_base_filter import BudBaseFilterCreate
+from bud_finder_module.schemas.bud_filter import BudFilterCreate
 from game_base_module.crud import game_crud, game_genre_crud, game_genre_association_crud
 from game_base_module.schemas.game import GameCreate
 from game_base_module.schemas.game_genre import GameGenreCreate
@@ -34,10 +34,10 @@ def populate_database(db: Session, users, genres, games):
             db=db, user_id=new_user_id, games_list=user["games"])
 
         # Add bud base filters
-        bud_base_filters = BudBaseFilterCreate(**user["base_filters"])
+        bud_base_filters = BudFilterCreate(**user["base_filters"])
         bud_base_filter_crud.add_filter(
             db=db, user_id=new_user_id, filter=bud_base_filters)
 
         # Add bud gender filters
         bud_gender_filter_crud.add_filter(
-            db=db, user_id=new_user_id, gender_preference_list=user["gender_filter"])
+            db=db, user_id=new_user_id, gender_preference_list=bud_base_filters.gender_preference)

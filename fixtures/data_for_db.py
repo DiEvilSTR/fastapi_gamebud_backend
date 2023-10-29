@@ -11,9 +11,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "China"
-        },
-        "gender_filter": ["female", "other", "male"]
+            "country_preference": "China",
+            "gender_preference": ["female", "other", "male"]
+        }
     },
     {
         "nickname": "Bob Smith",
@@ -26,9 +26,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "India"
-        },
-        "gender_filter": ["female", "other", "male"]
+            "country_preference": "India",
+            "gender_preference": ["female", "other", "male"]
+        }
     },
     {
         "nickname": "Charlie Brown",
@@ -41,9 +41,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "India"
-        },
-        "gender_filter": ["female", "other", "male"]
+            "country_preference": "India",
+            "gender_preference": ["female", "other", "male"]
+        }
     },
     {
         "nickname": "David Lee",
@@ -56,9 +56,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Colombia"
-        },
-        "gender_filter": ["female"]
+            "country_preference": "Colombia",
+            "gender_preference": ["female"]
+        }
     },
     {
         "nickname": "Emily Davis",
@@ -71,9 +71,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Colombia"
-        },
-        "gender_filter": ["female"]
+            "country_preference": "Colombia",
+            "gender_preference": ["female"]
+        }
     },
     {
         "nickname": "Frankie Adams",
@@ -86,9 +86,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Colombia"
-        },
-        "gender_filter": ["female", "other", "male"]
+            "country_preference": "Colombia",
+            "gender_preference": ["female", "other", "male"]
+        }
     },
     {
         "nickname": "Grace Evans",
@@ -101,9 +101,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Colombia"
-        },
-        "gender_filter": ["female", "other", "male"]
+            "country_preference": "Colombia",
+            "gender_preference": ["female", "other", "male"]
+        }
     },
     {
         "nickname": "Hank Wilson",
@@ -116,9 +116,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Sweden"
-        },
-        "gender_filter": ["female", "other", "male"]
+            "country_preference": "Sweden",
+            "gender_preference": ["female", "other", "male"]
+        }
     },
     {
         "nickname": "Ivy Turner",
@@ -131,9 +131,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Sweden"
-        },
-        "gender_filter": ["female", "other", "male"]
+            "country_preference": "Sweden",
+            "gender_preference": ["female", "other", "male"]
+        }
     },
     {
         "nickname": "Jackie Hall",
@@ -146,9 +146,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Sweden"
-        },
-        "gender_filter": ["female", "other", "male"]
+            "country_preference": "Sweden",
+            "gender_preference": ["female", "other", "male"]
+        }
     },
     {
         "nickname": "Kevin Moore",
@@ -161,9 +161,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Spain"
-        },
-        "gender_filter": ["female"]
+            "country_preference": "Spain",
+            "gender_preference": ["female"]
+        }
     },
     {
         "nickname": "Linda Clark",
@@ -176,9 +176,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Spain"
-        },
-        "gender_filter": ["female", "other", "male"]
+            "country_preference": "Spain",
+            "gender_preference": ["female", "other", "male"]
+        }
     },
     {
         "nickname": "Mike Johnson",
@@ -191,9 +191,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Spain"
-        },
-        "gender_filter": ["female", "other"]
+            "country_preference": "Spain",
+            "gender_preference": ["female", "other"]
+        }
     },
     {
         "nickname": "Nora Garcia",
@@ -206,9 +206,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Spain"
-        },
-        "gender_filter": ["female"]
+            "country_preference": "Spain",
+            "gender_preference": ["female"]
+        }
     },
     {
         "nickname": "Oliver Smith",
@@ -221,9 +221,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Spain"
-        },
-        "gender_filter": ["female", "other"]
+            "country_preference": "Spain",
+            "gender_preference": ["female", "other"]
+        }
     },
     {
         "nickname": "Paula Harris",
@@ -236,9 +236,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Canada"
-        },
-        "gender_filter": ["female"]
+            "country_preference": "Canada",
+            "gender_preference": ["female"]
+        }
     },
     {
         "nickname": "Quincy Adams",
@@ -251,9 +251,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Canada"
-        },
-        "gender_filter": ["female"]
+            "country_preference": "Canada",
+            "gender_preference": ["female"]
+        }
     },
     {
         "nickname": "Rachel Lee",
@@ -266,9 +266,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Germany"
-        },
-        "gender_filter": ["female", "other"]
+            "country_preference": "Germany",
+            "gender_preference": ["female", "other"]
+        }
     },
     {
         "nickname": "Sam Taylor",
@@ -281,9 +281,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Germany"
-        },
-        "gender_filter": ["female"]
+            "country_preference": "Germany",
+            "gender_preference": ["female"]
+        }
     },
     {
         "nickname": "Tracy Turner",
@@ -296,9 +296,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Germany"
-        },
-        "gender_filter": ["female", "other"]
+            "country_preference": "Germany",
+            "gender_preference": ["female", "other"]
+        }
     },
     {
         "nickname": "Dick Biggenson",
@@ -311,9 +311,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Japan"
-        },
-        "gender_filter": ["female", "male"]
+            "country_preference": "Japan",
+            "gender_preference": ["female", "male"]
+        }
     },
     {
         "nickname": "Sue Smith",
@@ -326,9 +326,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Japan"
-        },
-        "gender_filter": ["female"]
+            "country_preference": "Japan",
+            "gender_preference": ["female"]
+        }
     },
     {
         "nickname": "Harry Potter",
@@ -341,9 +341,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Ukraine"
-        },
-        "gender_filter": ["female"]
+            "country_preference": "Ukraine",
+            "gender_preference": ["female"]
+        }
     },
     {
         "nickname": "Mickey Mouse",
@@ -356,9 +356,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Singapore"
-        },
-        "gender_filter": ["female"]
+            "country_preference": "Singapore",
+            "gender_preference": ["female"]
+        }
     },
     {
         "nickname": "Elvis Presley",
@@ -371,9 +371,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Ukraine"
-        },
-        "gender_filter": ["female"]
+            "country_preference": "Ukraine",
+            "gender_preference": ["female"]
+        }
     },
     {
         "nickname": "Wonder Woman",
@@ -386,9 +386,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Singapore"
-        },
-        "gender_filter": ["female"]
+            "country_preference": "Singapore",
+            "gender_preference": ["female"]
+        }
     },
     {
         "nickname": "Darth Vader",
@@ -401,9 +401,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Ukraine"
-        },
-        "gender_filter": ["female"]
+            "country_preference": "Ukraine",
+            "gender_preference": ["female"]
+        }
     },
     {
         "nickname": "Spider-Man",
@@ -416,9 +416,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Singapore"
-        },
-        "gender_filter": ["female"]
+            "country_preference": "Singapore",
+            "gender_preference": ["female"]
+        }
     },
     {
         "nickname": "Black Widow",
@@ -431,9 +431,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Ukraine"
-        },
-        "gender_filter": ["female"]
+            "country_preference": "Ukraine",
+            "gender_preference": ["female"]
+        }
     },
     {
         "nickname": "Sherlock Holmes",
@@ -446,9 +446,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Singapore"
-        },
-        "gender_filter": ["female"]
+            "country_preference": "Singapore",
+            "gender_preference": ["female"]
+        }
     },
     {
         "nickname": "string",
@@ -461,9 +461,9 @@ users = [
         "base_filters": {
             "min_age_preference": 18,
             "max_age_preference": 30,
-            "country_preference": "Japan"
-        },
-        "gender_filter": ["female"]
+            "country_preference": "Japan",
+            "gender_preference": ["female"]
+        }
     }
 ]
 # endregion

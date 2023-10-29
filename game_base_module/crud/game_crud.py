@@ -14,6 +14,16 @@ def get_game_by_id(db: Session, id: str):
     return db.query(Game).filter(Game.id == id).first()
 
 
+def get_game_by_game_id_list(db: Session, game_id_list: list):
+    """
+    Get game by game id list
+
+    Parameters:
+    - **game_id_list**: List of game ids
+    """
+    return db.query(Game).filter(Game.id.in_(game_id_list)).all()
+
+
 def get_game_by_name(db: Session, name: str):
     """
     Get game by name

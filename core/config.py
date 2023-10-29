@@ -12,6 +12,9 @@ class Settings(BaseSettings):
     # API V1 url prefix
     API_V1_STR: str = "/api/v1"
 
+    # Websocket url prefix
+    WS_V1_STR: str = "/ws/v1"
+
     # For JWT Authentication
     ALGORITHM: str = config("ALGORITHM")
     SECRET_KEY: str = config("SECRET_KEY")

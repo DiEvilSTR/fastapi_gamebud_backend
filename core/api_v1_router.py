@@ -1,8 +1,8 @@
 from fastapi import APIRouter
 
-from user_profile_module import endpoints as users_router
-from game_base_module import endpoints as games_router
 from bud_finder_module import endpoints as bud_finder_router
+from game_base_module import endpoints as games_router
+from user_profile_module import endpoints as users_router
 
 api_router = APIRouter()
 

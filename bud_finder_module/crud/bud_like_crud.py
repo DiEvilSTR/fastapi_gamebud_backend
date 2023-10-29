@@ -95,3 +95,16 @@ def delete_likes_for_matched_users(db: Session, user_id: str, matched_user_id: s
         BudLike.swiped_id == user_id
     ).delete()
     db.commit()
+
+
+def delete_likes_for_user(db: Session, user_id: str):
+    """
+    Delete likes for user
+
+    Parameters:
+    - **user_id**: User id
+    """
+    db.query(BudLike).filter(
+        (BudLike.swiper_id == user_id) | (BudLike.swiped_id == user_id)
+    ).delete(synchronize_session=False)
+    db.commit()
