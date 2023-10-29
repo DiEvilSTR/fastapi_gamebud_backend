@@ -20,6 +20,7 @@ This is a simple RESTful API for a GameBud Backend application. The API is built
 - PostgreSQL database
 - Pytest for testing
 - JWT authentication for user authorization
+- Websockets for real-time communication
 
 ## Installation
 
@@ -33,26 +34,47 @@ This is a simple RESTful API for a GameBud Backend application. The API is built
 
 ## API Endpoints
 
-### Users
-- POST `/user/login`: Returns a JWT token for authentication
-- POST `/user/logout`: Deletes authentication cookies
-- POST `/user/create`: Creates a new user
-- GET `/user/me`: Returns current user's profile
-- GET `/user/me/update`: Returns current user's profile for update
-- PATCH `/user/me/update`: Updates current user's profile
-- DELETE `/user/me/delete`: Deletes current user
+### Swagger UI
+- Swagger UI: `http://localhost:8000/docs`
 
-### Game base
-- POST `/game_genre`: Add a new game genre
-- GET `/game_genre`: Returns a list of all game genres
-- GET `/game_genre/{game_genre_id}`: Returns a specific game genre by ID
-- PATCH `/game_genre/{game_genre_id}`: Updates a specific game genre by ID
-- DELETE `/game_genre/{game_genre_id}`: Deletes a specific game genre by ID
-- POST `/game`: Add a new game
-- GET `/game`: Returns a list of all games
-- GET `/game/{game_id}`: Returns a specific game by ID
-- PATCH `/game/{game_id}`: Updates a specific game by ID
-- DELETE `/game/{game_id}`: Deletes a specific game by ID
+
+## Project Structure
+
+### Modules
+```bash
+└───app
+    ├───alembic
+    │   ├───versions
+    │   │   └───migration.py
+    │   └───env.py
+    ├───module
+    │   ├───crud
+    │   │   └───crud.py
+    │   ├───models
+    │   │   ├───model.py
+    │   │   └───model_test.py
+    │   ├───schemas
+    │   │   └───schema.py
+    │   ├───endpoints.py
+    │   ├───endpoints_test.py
+    │   └───module_test.py
+    ├───fixtures
+    │   ├───data_for_db.py
+    │   └───generate_game_genre_base.py
+    ├───scripts
+    │   ├───run_migration.bat
+    │   └───test_myapp.bat
+    ├───tests
+    │   └───conftest.py
+    ├───.env
+    ├───.gitignore
+    ├───alembic.ini
+    ├───LICENSE
+    ├───main.py
+    ├───populate_db.py
+    ├───README.md
+    └───requirements.txt
+```
 
 
 ## Testing
