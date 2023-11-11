@@ -11,6 +11,14 @@ This is a simple RESTful API for a GameBud Backend application. The API is built
 - Create a new user and user profile
 - Login using JWT authentication
 - View the your user profiles
+- Add a new game to your user profile
+- View the games in your user profile
+- View the games by genre
+- Fetch gamebud list
+- Give potential gamebud a like or dislike
+- Match with gamebud
+- View your matches
+- Chat with your matches
 
 ## Technologies
 
