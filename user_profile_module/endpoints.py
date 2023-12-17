@@ -25,8 +25,11 @@ def user_login(user: UserLogin, db: Session = Depends(db_setup.get_db)):
 
     Parameters:
     - **user**: User login details
+
+    Returns:
+    - **Token**: JWT token
     """
-    db_user = user_crud.authenticate(db=db, user=user)
+    db_user: User = user_crud.authenticate(db=db, user=user)
     if db_user is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Invalid login details!"
@@ -49,27 +52,34 @@ def user_logout(response: Response):
     return {"detail": "Successfully logged out!"}
 
 
-@router.post("/signup", response_model=User, status_code=status.HTTP_201_CREATED)
+@router.post("/signup", response_model=Token, status_code=status.HTTP_201_CREATED)
 def user_signup(user: UserCreate, db: Session = Depends(db_setup.get_db)):
     """
     User signup
 
     Parameters:
     - **user**: User signup details
+
+    Returns:
+    - **Token**: JWT token
     """
-    db_user = user_crud.get_user_by_email(db=db, email=user.email)
+    db_user: User = user_crud.get_user_by_email(db=db, email=user.email)
     if db_user:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT, detail="Email is already registered. Please try another one."
         )
     db_user = user_crud.create_user(db=db, user=user)
-    return db_user
+
+    return jwt_handler.sign_jwt(db_user.uuid)
 
 
 @router.get("/me", response_model=User, dependencies=[Depends(jwt_scheme)])
 def read_current_user(db: Session = Depends(db_setup.get_db), current_user_id: str = Depends(jwt_scheme)):
     """
     Get current user
+
+    Returns:
+    - **User**: User data
     """
     db_user = user_crud.get_user_by_uuid(
         db=db, uuid=current_user_id)
@@ -84,6 +94,9 @@ def read_current_user(db: Session = Depends(db_setup.get_db), current_user_id: s
 def read_current_user_for_update(db: Session = Depends(db_setup.get_db), current_user_id: str = Depends(jwt_scheme)):
     """
     Get current user for update
+
+    Returns:
+    - **UserInDBForUpdate**: User data for update
     """
     db_user = user_crud.get_user_by_uuid_for_update(
         db=db, uuid=current_user_id)
@@ -101,6 +114,9 @@ def update_current_user(updated_user: UserUpdate, db: Session = Depends(db_setup
 
     Parameters:
     - **updated_user**: Updated user data
+
+    Returns:
+    - **User**: Updated user data
     """
     db_user = user_crud.get_user_by_uuid_for_update(
         db=db, uuid=current_user_id)
@@ -145,8 +161,10 @@ def delete_current_user(response: Response, db: Session = Depends(db_setup.get_d
     bud_like_crud.delete_likes_for_user(db=db, user_id=current_user_id)
 
     # Delete bud matches
-    db_matched_ids = bud_match_association_crud.get_bud_matches_ids(db=db, user_id=current_user_id)
-    bud_match_association_crud.delete_bud_match_associations(db=db, matches_ids_list=db_matched_ids)
+    db_matched_ids = bud_match_association_crud.get_bud_matches_ids(
+        db=db, user_id=current_user_id)
+    bud_match_association_crud.delete_bud_match_associations(
+        db=db, matches_ids_list=db_matched_ids)
     bud_match_crud.delete_matches_from_matches_ids_list(
         db=db, matches_ids_list=db_matched_ids)
 
