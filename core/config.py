@@ -19,8 +19,11 @@ class Settings(BaseSettings):
     ALGORITHM: str = config("ALGORITHM")
     SECRET_KEY: str = config("SECRET_KEY")
 
-    # Token lifetime: 60 minutes * 24 hours * 8 days = 8 days
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
+    #Auth cookie name
+    AUTH_COOKIE_NAME: str = "Authorization"
+
+    # Token lifetime: 60 seconds * 60 minutes * 3 hours
+    ACCESS_TOKEN_EXPIRE_SECONDS: int = 60 * 60 * 3
 
     # Database url
     SQLALCHEMY_DATABASE_URL: str = config('DATABASE_URL')

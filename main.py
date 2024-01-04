@@ -1,6 +1,7 @@
 import uvicorn
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from starlette.responses import RedirectResponse
 
 from core.api_v1_router import api_router
@@ -37,6 +38,15 @@ app = FastAPI(
         "name": settings.AUTHOR,
         "email": settings.AUTHOR_EMAIL,
     }
+)
+
+
+# Allow requests from the specific origin where your client is hosted
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # Replace with the actual origin of your client
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
