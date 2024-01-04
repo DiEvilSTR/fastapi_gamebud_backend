@@ -18,8 +18,8 @@ from bud_finder_module.crud import bud_like_crud, bud_match_crud, bud_match_asso
 router = APIRouter()
 
 
-@router.post("/login", response_model=Token)
-def user_login(user: UserLogin, db: Session = Depends(db_setup.get_db)):
+@router.post("/login", response_model=User)
+def user_login(user: UserLogin, response: Response, db: Session = Depends(db_setup.get_db)):
     """
     User login
 
@@ -39,8 +39,10 @@ def user_login(user: UserLogin, db: Session = Depends(db_setup.get_db)):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="User is inactive. Please contact the admin."
         )
+
     else:
-        return jwt_handler.sign_jwt(db_user.uuid)
+        jwt_handler.set_cookie_jwt(response=response, uuid=db_user.uuid)
+        return db_user
 
 
 @router.post("/logout", dependencies=[Depends(jwt_scheme)])
@@ -53,7 +55,7 @@ def user_logout(response: Response):
 
 
 @router.post("/signup", response_model=Token, status_code=status.HTTP_201_CREATED)
-def user_signup(user: UserCreate, db: Session = Depends(db_setup.get_db)):
+def user_signup(user: UserCreate, response: Response, db: Session = Depends(db_setup.get_db)):
     """
     User signup
 
@@ -70,7 +72,7 @@ def user_signup(user: UserCreate, db: Session = Depends(db_setup.get_db)):
         )
     db_user = user_crud.create_user(db=db, user=user)
 
-    return jwt_handler.sign_jwt(db_user.uuid)
+    jwt_handler.set_cookie_jwt(response=response, uuid=db_user.uuid)
 
 
 @router.get("/me", response_model=User, dependencies=[Depends(jwt_scheme)])
