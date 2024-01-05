@@ -36,8 +36,9 @@ This is a simple RESTful API for a GameBud Backend application. The API is built
 2. Create a virtual environment: `virtualenv venv`
 3. Install the required dependencies using `pip install -r requirements.txt`.
 4. Set up your PostgreSQL database and create the `.env` file with all the necessary configuration variables (check `.env.example`).
-5. Run migrations using `.scripts/run_migration.bat`.
-6. Start the server using `uvicorn main:app --reload` and navigate to `http://localhost:8000` to use the application.
+5. Activate the virtual environment using `.\venv\Scripts\activate.bat`.
+6. Run migrations using `.\scripts\run_migration.bat`.
+7. Start the server using `.\scripts\run_server.bat` and navigate to `http://localhost:8000` to use the application.
 
 
 ## API Endpoints
@@ -71,6 +72,7 @@ This is a simple RESTful API for a GameBud Backend application. The API is built
     │   └───generate_game_genre_base.py
     ├───scripts
     │   ├───run_migration.bat
+    │   ├───run_server.bat
     │   └───test_myapp.bat
     ├───tests
     │   └───conftest.py
