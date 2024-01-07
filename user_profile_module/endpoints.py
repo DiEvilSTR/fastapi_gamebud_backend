@@ -176,3 +176,17 @@ def delete_current_user(response: Response, db: Session = Depends(db_setup.get_d
     # Delete cookie
     response.delete_cookie(key="Authorization")
     return {"detail": "User deleted successfully."}
+
+
+# Get number of registered users
+@router.get("/count", response_model=int)
+def get_number_of_registered_users(db: Session = Depends(db_setup.get_db)):
+    """
+    Get number of registered users
+
+    Returns:
+    - **users_count**: Number of registered users in the database (int)
+    """
+    users_count = user_crud.get_number_of_registered_users(db=db)
+
+    return users_count

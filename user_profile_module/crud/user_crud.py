@@ -13,6 +13,9 @@ def get_user_by_uuid(db: Session, uuid: str):
 
     Parameters:
     - **uuid**: User uuid
+
+    Returns:
+    - **db_user**: User data
     """
     db_user = db.query(User).filter(User.uuid == uuid).first()
 
@@ -28,6 +31,9 @@ def get_user_by_email(db: Session, email: str):
 
     Parameters:
     - **email**: User email
+
+    Returns:
+    - **db_user**: User data
     """
     db_user = db.query(User).filter(User.email == email).first()
 
@@ -43,6 +49,9 @@ def get_user_by_uuid_for_update(db: Session, uuid: str):
 
     Parameters:
     - **uuid**: User uuid
+
+    Returns:
+    - **db_user**: User data
     """
     return db.query(User).filter(User.uuid == uuid).first()
 
@@ -53,6 +62,9 @@ def create_user(db: Session, user: UserCreate):
 
     Parameters:
     - **user**: User data to be added
+
+    Returns:
+    - **db_user**: Created user data
     """
     new_user_uuid = str(uuid_pkg.uuid4())
     hashed_password = get_password_hash(user.password)
@@ -78,6 +90,9 @@ def update_user(db: Session, user: UserUpdate, uuid: str):
     Parameters:
     - **user**: User data to be updated
     - **uuid**: User uuid
+
+    Returns:
+    - **db_user**: Updated user data
     """
     db_user = get_user_by_uuid_for_update(db=db, uuid=uuid)
     updated_user = user.model_dump(exclude_unset=True)
@@ -102,6 +117,9 @@ def delete_user(db: Session, uuid: str):
 
     Parameters:
     - **uuid**: User uuid
+
+    Returns:
+    - **db_user**: Deleted user data
     """
     db_user = get_user_by_uuid(db=db, uuid=uuid)
     db.delete(db_user)
@@ -115,9 +133,26 @@ def authenticate(db: Session, user: UserLogin):
 
     Parameters:
     - **user**: User login details
+
+    Returns:
+    - **db_user**: User data if user is authenticated, else None
     """
     db_user = get_user_by_email(db=db, email=user.email)
     if db_user and verify_password(user.password, db_user.hashed_password):
         return db_user
     else:
         return None
+
+
+def get_number_of_registered_users(db: Session):
+    """
+    Get number of registered users
+
+    Parameters:
+    - **db**: Database session
+
+    Returns:
+    - **users_count**: Number of registered users in the database (int)
+    """
+    users_count: int = db.query(User).count()
+    return users_count
