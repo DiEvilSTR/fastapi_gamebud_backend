@@ -23,4 +23,5 @@ class ChatMessage(Timestamp, Base):
     content = Column(String, nullable=False)
 
     # Define the relationship to the BudMatch model
-    match = relationship("BudMatch", back_populates="chat_messages", uselist=False)
+    match = relationship(
+        "BudMatch", back_populates="chat_messages", uselist=False)
