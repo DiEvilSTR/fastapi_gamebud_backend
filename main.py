@@ -41,10 +41,10 @@ app = FastAPI(
 )
 
 
-# Allow requests from the specific origin where your client is hosted
+# Allow requests from the specific origin where my client is hosted
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Replace with the actual origin of your client
+    allow_origins=["http://localhost:5173"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -59,5 +59,7 @@ async def redirect_to_docs():
 
 
 # Include routers
-app.include_router(api_router, prefix=settings.API_V1_STR) # Include API router
-app.include_router(ws_router, prefix=settings.WS_V1_STR) # Include WebSocket router
+# Include API router
+app.include_router(api_router, prefix=settings.API_V1_STR)
+# Include WebSocket router
+app.include_router(ws_router, prefix=settings.WS_V1_STR)

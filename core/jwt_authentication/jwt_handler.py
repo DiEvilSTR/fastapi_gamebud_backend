@@ -12,10 +12,10 @@ from core.config import settings
 def create_jwt_token(uuid: str):
     """
     Create JWT token
-    
+
     Parameters:
     - **uuid**: User's uuid
-    
+
     Returns:
     - **Token**: JWT token
     """
@@ -23,7 +23,8 @@ def create_jwt_token(uuid: str):
         "uuid": uuid,
         "expires": (time.time() + (settings.ACCESS_TOKEN_EXPIRE_SECONDS / 60))
     }
-    token = jwt.encode(payload, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+    token = jwt.encode(payload, settings.SECRET_KEY,
+                       algorithm=settings.ALGORITHM)
     return token
 
 
@@ -31,10 +32,10 @@ def create_jwt_token(uuid: str):
 def sign_jwt(uuid: str):
     """
     Sign JWT
-    
+
     Parameters:
     - **uuid**: User's uuid
-    
+
     Returns:
     - **Token**: JWT token
     """
@@ -49,23 +50,23 @@ def sign_jwt(uuid: str):
 def set_cookie_jwt(response: Response, uuid: str):
     """
     Set cookie JWT
-    
+
     Parameters:
     - **response**: Response object
     - **uuid**: User's uuid
     """
     token = create_jwt_token(uuid)
     response.set_cookie(key=settings.AUTH_COOKIE_NAME, value=token, path="/",
-                        httponly=True, samesite="strict", max_age=settings.ACCESS_TOKEN_EXPIRE_SECONDS)
+                        httponly=True, samesite="lax", max_age=settings.ACCESS_TOKEN_EXPIRE_SECONDS)
 
 
 def decode_jwt(token: str):
     """
     Decode JWT token
-    
+
     Parameters:
     - **token**: JWT token
-    
+
     Returns:
     - **Token**: Decoded JWT token or None
     """
