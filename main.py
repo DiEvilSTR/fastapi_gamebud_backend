@@ -44,9 +44,11 @@ app = FastAPI(
 # Allow requests from the specific origin where my client is hosted
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=["http://127.0.0.1:5173", "http://127.0.0.1:8000"],  # Specify frontend origins
+    allow_credentials=True,  # Allows cookies to be included in requests
+    allow_methods=["*"],  # Specify which methods are allowed
+    allow_headers=["Authorization", "Content-Type", "X-CSRF-Token"],  # Specify which headers are allowed
+    expose_headers=["Set-Cookie"],  # Ensure the frontend can read the Set-Cookie header
 )
 
 

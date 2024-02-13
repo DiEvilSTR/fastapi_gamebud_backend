@@ -22,6 +22,9 @@ class Settings(BaseSettings):
     #Auth cookie name
     AUTH_COOKIE_NAME: str = "Authorization"
 
+    #Auth cookie domain
+    AUTH_COOKIE_DOMAIN: str = config("DOMAIN")
+
     # Token lifetime: 60 seconds * 60 minutes * 3 hours
     ACCESS_TOKEN_EXPIRE_SECONDS: int = 60 * 60 * 3
 

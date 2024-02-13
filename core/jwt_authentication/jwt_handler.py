@@ -56,8 +56,19 @@ def set_cookie_jwt(response: Response, uuid: str):
     - **uuid**: User's uuid
     """
     token = create_jwt_token(uuid)
-    response.set_cookie(key=settings.AUTH_COOKIE_NAME, value=token, path="/",
-                        httponly=True, samesite="lax", max_age=settings.ACCESS_TOKEN_EXPIRE_SECONDS)
+    response.set_cookie(
+        key=settings.AUTH_COOKIE_NAME,
+        value=token,
+        path="/",
+        httponly=True,
+        
+        # TODO: Change these settings for production
+        # domain=settings.AUTH_COOKIE_DOMAIN,
+        samesite="None",
+        secure=True,
+        
+        max_age=settings.ACCESS_TOKEN_EXPIRE_SECONDS,
+    )
 
 
 def decode_jwt(token: str):
