@@ -34,3 +34,18 @@ class BudMatch(BudMatchBase):
 
     class Config:
         from_attributes = True
+
+
+class BudMatchForMatchList(BudMatchBase):
+    """
+    Read class for BudMatch for match list
+
+    Fields:
+    - **id**: Match id
+    - **bud**: Opponent user id
+    """
+    id: int
+    bud: UserAsBudForMatchList
+
+    class Config:
+        from_attributes = True

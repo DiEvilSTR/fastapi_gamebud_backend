@@ -5,10 +5,10 @@ from typing import List
 from core.db import db_setup
 from core.jwt_authentication.jwt_bearer import jwt_scheme
 
-from bud_finder_module.crud import bud_base_filter_crud, bud_gender_filter_crud, bud_list_crud, bud_like_crud, bud_match_crud, bud_match_association_crud 
+from bud_finder_module.crud import bud_base_filter_crud, bud_gender_filter_crud, bud_list_crud, bud_like_crud, bud_match_crud, bud_match_association_crud
 from bud_finder_module.schemas.bud_filter import BudFilter, BudFilterCreate, BudFilterUpdate
 from bud_finder_module.schemas.bud_like import BudLikeCreate
-from bud_finder_module.schemas.bud_match import BudMatch
+from bud_finder_module.schemas.bud_match import BudMatch, BudMatchForMatchList
 
 # Import schemas from other modules
 from user_profile_module.schemas.user import UserAsBud
@@ -55,10 +55,10 @@ def swipe_bud(swipe: BudLikeCreate, db: Session = Depends(db_setup.get_db), curr
 
         # Check if like is mutual and create match if it is
         if bud_like_crud.check_like_mutuality(db=db, swiper_id=current_user_id, swiped_id=swipe.swiped_id):
-            
+
             # Create match record
             db_match_id = bud_match_crud.create_match(db=db)
-            
+
             # Create bud match associations
             bud_match_association_crud.create_bud_match_associations(
                 db=db,
@@ -170,7 +170,7 @@ def get_number_of_likes_to_user(db: Session = Depends(db_setup.get_db), current_
     return bud_like_crud.get_number_of_likes_for_user(db=db, user_id=current_user_id)
 
 
-@router.get("/matches/list", response_model=List[BudMatch], status_code=status.HTTP_200_OK)
+@router.get("/matches/list", response_model=List[BudMatchForMatchList], status_code=status.HTTP_200_OK)
 def get_matches(db: Session = Depends(db_setup.get_db), current_user_id: str = Depends(jwt_scheme)):
     """
     Get list of matches
@@ -181,10 +181,11 @@ def get_matches(db: Session = Depends(db_setup.get_db), current_user_id: str = D
     # Get list of matches ids
     dm_matches_ids = bud_match_association_crud.get_bud_matches_ids(
         db=db, user_id=current_user_id)
-    
+
     # Get list of matches
-    db_matches = bud_match_crud.fetch_matches(db=db, matches_ids_list=dm_matches_ids)
-    
+    db_matches = bud_match_crud.fetch_matches_for_user(
+        db=db, user_id=current_user_id, matches_ids_list=dm_matches_ids)
+
     return db_matches
 
 
@@ -214,6 +215,7 @@ def delete_match(match_id: int, db: Session = Depends(db_setup.get_db), current_
         )
 
     # Delete match
-    bud_match_crud.delete_matches_from_matches_ids_list(db=db, matches_ids_list=[match_id])
+    bud_match_crud.delete_matches_from_matches_ids_list(
+        db=db, matches_ids_list=[match_id])
 
     return Response(status_code=status.HTTP_200_OK, content="Match deleted")
